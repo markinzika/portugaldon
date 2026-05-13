@@ -1,0 +1,1905 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Precisamos de Ajuda Urgente — Resgate Animal | Ponte Solidária</title>
+  <meta name="description" content="Estamos a chegar ao limite. Temos mais de 20 mil euros em dívidas veterinárias e precisamos da vossa ajuda para continuar a salvar patudos. Qualquer contributo faz a diferença." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── VARIÁVEIS DE TEMA ─────────────────────────────────────────── */
+    :root {
+      --primary:        #1a1a1a;
+      --primary-fg:     #ffffff;
+      --bg:             #ffffff;
+      --bg-alt:         #f5f5f3;
+      --bg-dark:        #111111;
+      --accent:         #f5a623;   /* laranja caloroso */
+      --accent-dark:    #c97b10;   /* laranja escuro */
+      --accent-muted:   #fde8c0;   /* laranja suave */
+      --muted:          #6b7280;
+      --border:         #e5e7eb;
+      --card:           #ffffff;
+      --progress-track: #fde8c0;
+      --radius:         1rem;
+      --radius-pill:    999px;
+      --shadow-soft:    0 4px 24px rgba(0,0,0,.07);
+      --shadow-card:    0 2px 12px rgba(0,0,0,.08);
+      --transition:     .25s ease;
+      --font:           'Inter', system-ui, sans-serif;
+    }
+
+    /* ─── RESET & BASE ──────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { display: block; max-width: 100%; }
+    a   { color: inherit; text-decoration: none; }
+    ul  { list-style: none; }
+    button { font-family: var(--font); cursor: pointer; border: none; background: none; }
+
+    /* ─── UTILITÁRIOS ───────────────────────────────────────────────── */
+    .container {
+      width: 100%;
+      max-width: 480px;
+      margin-inline: auto;
+      padding-inline: 1.25rem;
+    }
+
+    .sr-only {
+      position: absolute; width: 1px; height: 1px;
+      overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap;
+    }
+
+    /* ─── ANIMAÇÕES DE ENTRADA (Intersection Observer) ──────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: .1s; }
+    .reveal-delay-2 { transition-delay: .2s; }
+    .reveal-delay-3 { transition-delay: .3s; }
+
+    /* ─── HEADER / NAV ──────────────────────────────────────────────── */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 83px;
+      max-width: 480px;
+      margin-inline: auto;
+      padding-inline: 1.25rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo img {
+      height: 64px;
+      width: auto;
+      max-width: 184px;
+      display: block;
+      object-fit: contain;
+    }
+
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      gap: .35rem;
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--muted);
+      padding: .4rem .75rem;
+      border-radius: var(--radius-pill);
+      transition: background var(--transition), color var(--transition);
+    }
+    .nav-btn:hover { background: var(--bg-alt); color: var(--primary); }
+
+    /* ─── HERO ──────────────────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-visual {
+      position: relative;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      background: #111;
+    }
+
+    /* ── Carrossel ── */
+    .hero-slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      opacity: 0;
+      transition: opacity .9s ease;
+      will-change: opacity;
+    }
+    .hero-slide.active { opacity: 1; }
+
+    /* Indicadores (pontos) */
+    .hero-dots {
+      position: absolute;
+      bottom: 5.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: .45rem;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .hero-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.45);
+      transition: background .3s, transform .3s;
+    }
+    .hero-dot.active {
+      background: #fff;
+      transform: scale(1.3);
+    }
+
+    .hero-gradient-top {
+      position: absolute; inset-x: 0; top: 0; height: 7rem;
+      background: linear-gradient(to bottom, rgba(0,0,0,.35), transparent);
+      pointer-events: none;
+    }
+
+    .hero-gradient-bottom {
+      position: absolute; inset-x: 0; bottom: 0; height: 13rem;
+      background: linear-gradient(to top, rgba(0,0,0,.7) 0%, rgba(0,0,0,.25) 60%, transparent 100%);
+      pointer-events: none;
+    }
+
+    /* Badge do organizador (topo esquerdo) */
+    .hero-organizer {
+      position: absolute;
+      top: 1rem; left: 1rem;
+      display: flex; align-items: center; gap: .5rem;
+      background: rgba(255,255,255,.18);
+      backdrop-filter: blur(8px);
+      border-radius: var(--radius-pill);
+      padding: .35rem .75rem .35rem .35rem;
+    }
+
+    .hero-avatar {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid rgba(255,255,255,.8);
+      flex-shrink: 0;
+    }
+    .hero-avatar img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero-organizer-name {
+      font-size: .8rem;
+      font-weight: 600;
+      color: #fff;
+      text-shadow: 0 1px 3px rgba(0,0,0,.3);
+    }
+
+    /* Título sobreposto */
+    .hero-title {
+      position: absolute;
+      inset-x: 0; bottom: 2.5rem;
+      text-align: center;
+      padding: 0 1.5rem;
+      font-size: 1.5rem;
+      font-weight: 900;
+      line-height: 1.2;
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(0,0,0,.4);
+      letter-spacing: -.02em;
+    }
+
+    /* Onda de transição */
+    .hero-wave {
+      position: absolute; inset-x: 0; bottom: -1px;
+      height: 28px;
+    }
+    .hero-wave path { fill: var(--bg); }
+
+    /* ─── SEÇÃO: PROGRESSO ──────────────────────────────────────────── */
+    .progress-section {
+      padding: 1.5rem 1.25rem 0;
+      max-width: 480px;
+      margin-inline: auto;
+    }
+
+    .progress-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      box-shadow: var(--shadow-card);
+      border: 1px solid var(--border);
+    }
+
+    .progress-top {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    /* Círculo de progresso SVG */
+    .progress-ring { flex-shrink: 0; }
+
+    .progress-ring circle.track {
+      stroke: var(--progress-track);
+      fill: none;
+      stroke-width: 6;
+    }
+
+    .progress-ring circle.fill {
+      stroke: var(--accent-dark);
+      fill: none;
+      stroke-width: 6;
+      stroke-linecap: round;
+      stroke-dasharray: 175.93;
+      stroke-dashoffset: 158.34; /* ~10% angariado de €40.000 */
+      transform: rotate(-90deg);
+      transform-origin: center;
+      transition: stroke-dashoffset 1.2s ease;
+    }
+
+    .progress-info { flex: 1; }
+
+    .progress-amount {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1.2;
+    }
+
+    .progress-goal {
+      font-size: .95rem;
+      font-weight: 400;
+      color: var(--muted);
+    }
+
+    .progress-ticker {
+      display: inline-flex;
+      align-items: center;
+      gap: .2rem;
+      margin-top: .3rem;
+      font-size: .85rem;
+      color: var(--muted);
+      transition: color var(--transition);
+      cursor: pointer;
+    }
+    .progress-ticker:hover { color: var(--primary); }
+    .progress-ticker svg { width: 14px; height: 14px; }
+
+    /* Barra de progresso linear */
+    .progress-bar-wrap {
+      margin-top: 1rem;
+      height: 6px;
+      background: var(--progress-track);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent-dark), var(--accent));
+      border-radius: var(--radius-pill);
+      transition: width 1.4s cubic-bezier(.4,0,.2,1);
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-top: .5rem;
+      font-size: .78rem;
+      color: var(--muted);
+    }
+
+    /* Botões de ação */
+    .cta-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .75rem;
+      margin-top: 1.1rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .4rem;
+      border-radius: var(--radius-pill);
+      font-size: .95rem;
+      font-weight: 700;
+      padding: .9rem 1rem;
+      transition: transform var(--transition), box-shadow var(--transition), opacity var(--transition);
+      cursor: pointer;
+    }
+    .btn:hover   { transform: translateY(-2px); box-shadow: var(--shadow-soft); }
+    .btn:active  { transform: translateY(0); opacity: .85; }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--primary);
+    }
+
+    .btn-secondary {
+      background: var(--primary);
+      color: var(--primary-fg);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--primary);
+      border: 1.5px solid var(--border);
+    }
+    .btn-outline:hover { background: var(--bg-alt); }
+
+    /* ─── SEÇÃO: PROVA SOCIAL (números) ────────────────────────────── */
+    .social-proof {
+      background: var(--bg-dark);
+      padding: 2.5rem 1.25rem;
+      margin-top: 2rem;
+    }
+
+    .social-proof-inner {
+      max-width: 480px;
+      margin-inline: auto;
+    }
+
+    .social-proof-label {
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    .stat-card {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.25rem;
+    }
+
+    .stat-number {
+      font-size: 1.75rem;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -.03em;
+      line-height: 1;
+    }
+
+    .stat-number span {
+      color: var(--accent);
+    }
+
+    .stat-label {
+      margin-top: .35rem;
+      font-size: .82rem;
+      color: rgba(255,255,255,.55);
+      line-height: 1.3;
+    }
+
+    /* Depoimento / doação em destaque */
+    .highlight-donation {
+      margin-top: 1.5rem;
+      background: rgba(245,166,35,.07);
+      border: 1px solid rgba(245,166,35,.2);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: .9rem;
+    }
+
+    .highlight-icon {
+      width: 40px; height: 40px; flex-shrink: 0;
+      background: rgba(245,166,35,.15);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent);
+    }
+    .highlight-icon svg { width: 20px; height: 20px; }
+
+    .highlight-text {
+      font-size: .88rem;
+      color: rgba(255,255,255,.8);
+      line-height: 1.4;
+    }
+
+    .highlight-text strong {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* ─── SEÇÃO: SOBRE A CAUSA ──────────────────────────────────────── */
+    .cause-section {
+      padding: 2.5rem 1.25rem;
+      max-width: 480px;
+      margin-inline: auto;
+    }
+
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      background: rgba(201,123,16,.12);
+      border-radius: var(--radius-pill);
+      padding: .35rem .85rem;
+      font-size: .78rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin-bottom: 1rem;
+    }
+    .section-badge svg { width: 14px; height: 14px; }
+
+    .section-title {
+      font-size: 1.45rem;
+      font-weight: 900;
+      line-height: 1.2;
+      letter-spacing: -.03em;
+      margin-bottom: .75rem;
+    }
+
+    .cause-organizer {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      padding: .75rem 0;
+      border-block: 1px solid var(--border);
+      margin-bottom: 1.25rem;
+    }
+
+    .cause-avatar {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f5a623, #c25900);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .8rem; font-weight: 800; color: #1a1a1a;
+      flex-shrink: 0;
+    }
+
+    .cause-organizer-name {
+      font-size: .9rem;
+      font-weight: 600;
+    }
+
+    .cause-text {
+      font-size: .95rem;
+      line-height: 1.75;
+      color: #333;
+    }
+
+    .cause-text h2 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-top: 1.5rem;
+      margin-bottom: .5rem;
+      padding-top: .5rem;
+    }
+
+    .cause-text p { margin-bottom: .85rem; }
+    .cause-text p:last-child { margin-bottom: 0; }
+
+    .cause-text em {
+      display: block;
+      font-style: italic;
+      background: var(--bg-alt);
+      border-left: 3px solid var(--accent-dark);
+      padding: .6rem 1rem;
+      border-radius: 0 .5rem .5rem 0;
+      margin: .75rem 0;
+      color: var(--muted);
+    }
+
+    /* Collapse / "Ler mais" */
+    .cause-text-wrap {
+      position: relative;
+      overflow: hidden;
+      transition: max-height .5s ease;
+    }
+
+    .cause-text-wrap.collapsed {
+      max-height: 280px;
+    }
+
+    .cause-text-wrap.collapsed::after {
+      content: '';
+      position: absolute;
+      inset-x: 0; bottom: 0;
+      height: 5rem;
+      background: linear-gradient(to top, var(--bg), transparent);
+      pointer-events: none;
+    }
+
+    .read-more-btn {
+      margin-top: .5rem;
+      font-size: .875rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: opacity var(--transition);
+    }
+    .read-more-btn:hover { opacity: .7; }
+
+    /* ─── SEÇÃO: PLANO DE TRATAMENTO ────────────────────────────────── */
+    .treatment-section {
+      background: var(--bg-alt);
+      padding: 2.5rem 1.25rem;
+    }
+
+    .treatment-inner {
+      max-width: 480px;
+      margin-inline: auto;
+    }
+
+    .treatment-steps {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: .85rem;
+    }
+
+    .step {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .step-number {
+      width: 38px; height: 38px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      border: 2.5px solid var(--border);
+      background: #fff;
+    }
+
+    .step-number img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      display: block;
+    }
+
+    .step.done .step-number {
+      border-color: var(--accent-dark);
+    }
+
+    .step.active .step-number {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(245,166,35,.35);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 4px rgba(245,166,35,.35); }
+      50%       { box-shadow: 0 0 0 8px rgba(245,166,35,.15); }
+    }
+
+    .step-body { flex: 1; padding-bottom: .5rem; }
+
+    .step-title {
+      font-size: .95rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .step-status {
+      font-size: .75rem;
+      font-weight: 600;
+      padding: .15rem .5rem;
+      border-radius: var(--radius-pill);
+      margin-left: .5rem;
+    }
+
+    .step.active  .step-status { background: rgba(245,166,35,.25); color: #7b3a00; }
+    .step.pending .step-status { background: rgba(0,0,0,.07);       color: var(--muted); }
+
+    .step-desc {
+      margin-top: .3rem;
+      font-size: .85rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* Linha conectora entre steps */
+    .step:not(:last-child) .step-number::after {
+      content: '';
+      display: block;
+      width: 2px;
+      height: calc(100% + .85rem);
+      background: var(--border);
+      margin: .35rem auto 0;
+    }
+
+    /* ─── SEÇÃO: DOAÇÕES ────────────────────────────────────────────── */
+    .donations-section {
+      padding: 2.5rem 1.25rem;
+      max-width: 480px;
+      margin-inline: auto;
+    }
+
+    .donations-header {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .donations-count {
+      background: var(--bg-alt);
+      border-radius: .4rem;
+      padding: .15rem .55rem;
+      font-size: .82rem;
+      font-weight: 700;
+    }
+
+    .donation-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+
+    .donation-item {
+      display: flex;
+      align-items: center;
+      gap: .9rem;
+    }
+
+    .donation-avatar {
+      width: 44px; height: 44px; flex-shrink: 0;
+      border-radius: 50%;
+      background: var(--bg-alt);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .95rem; font-weight: 700; color: var(--primary);
+    }
+
+    .donation-avatar.special {
+      background: linear-gradient(135deg, rgba(245,166,35,.2), rgba(45,122,69,.2));
+      color: var(--accent-dark);
+    }
+
+    .donation-name {
+      font-size: .95rem;
+      color: var(--primary);
+    }
+
+    .donation-amount {
+      font-size: .95rem;
+      color: var(--primary);
+    }
+
+    .donation-amount strong { font-weight: 700; }
+
+    .donation-time {
+      color: var(--muted);
+      font-size: .85rem;
+    }
+
+    /* ─── SEÇÃO: DIFERENCIAIS ───────────────────────────────────────── */
+    .features-section {
+      background: var(--bg-dark);
+      padding: 3rem 1.25rem;
+    }
+
+    .features-inner {
+      max-width: 480px;
+      margin-inline: auto;
+    }
+
+    .features-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.3;
+      letter-spacing: -.02em;
+      margin-bottom: 2rem;
+    }
+
+    .features-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .feature-icon {
+      width: 48px; height: 48px; flex-shrink: 0;
+      border-radius: 14px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent);
+    }
+    .feature-icon svg { width: 24px; height: 24px; }
+
+    .feature-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: .2rem;
+    }
+
+    .feature-desc {
+      font-size: .88rem;
+      color: rgba(255,255,255,.5);
+      line-height: 1.5;
+    }
+
+    .feature-desc a {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    /* ─── SEÇÃO: CTA FINAL ──────────────────────────────────────────── */
+    .cta-final {
+      padding: 3rem 1.25rem;
+      max-width: 480px;
+      margin-inline: auto;
+      text-align: center;
+    }
+
+    .cta-final-title {
+      font-size: 1.6rem;
+      font-weight: 900;
+      line-height: 1.2;
+      letter-spacing: -.03em;
+      margin-bottom: .75rem;
+    }
+
+    .cta-final-title em {
+      font-style: normal;
+      color: var(--accent-dark);
+    }
+
+    .cta-final-sub {
+      font-size: .95rem;
+      color: var(--muted);
+      margin-bottom: 1.75rem;
+      line-height: 1.6;
+    }
+
+    .cta-final-row {
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+    }
+
+    /* ─── SEÇÃO: ORGANIZADOR ────────────────────────────────────────── */
+    .organizer-section {
+      background: var(--bg-alt);
+      border-top: 1px solid var(--border);
+      padding: 2rem 1.25rem;
+    }
+
+    .organizer-inner {
+      max-width: 480px;
+      margin-inline: auto;
+    }
+
+    .organizer-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-top: 1.25rem;
+    }
+
+    .organizer-avatar {
+      width: 52px; height: 52px; flex-shrink: 0;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f5a623, #c25900);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; font-weight: 800; color: #1a1a1a;
+    }
+
+    .organizer-name { font-size: .95rem; font-weight: 700; }
+    .organizer-role { font-size: .85rem; color: var(--muted); }
+    .organizer-location { font-size: .85rem; color: var(--muted); margin-top: .1rem; }
+
+    /* ─── FOOTER ────────────────────────────────────────────────────── */
+    .site-footer {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 1.25rem 3rem;
+    }
+
+    .footer-inner {
+      max-width: 480px;
+      margin-inline: auto;
+    }
+
+    .footer-region {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-pill);
+      padding: .6rem 1rem;
+      font-size: .875rem;
+      color: var(--primary);
+      font-weight: 500;
+      transition: background var(--transition);
+    }
+    .footer-region:hover { background: var(--bg-alt); }
+
+    .footer-social {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      margin-top: 1.5rem;
+    }
+
+    .social-link {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--primary);
+      color: var(--primary-fg);
+      transition: opacity var(--transition), transform var(--transition);
+    }
+    .social-link:hover { opacity: .8; transform: translateY(-2px); }
+    .social-link svg  { width: 18px; height: 18px; }
+
+    .footer-copy {
+      margin-top: 1.5rem;
+      font-size: .85rem;
+      color: var(--muted);
+    }
+
+    .footer-links {
+      margin-top: 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem 1.25rem;
+    }
+
+    .footer-links a {
+      font-size: .9rem;
+      color: var(--primary);
+      transition: color var(--transition);
+    }
+    .footer-links a:hover { color: var(--accent-dark); }
+
+    /* ─── STICKY BOTTOM CTA ─────────────────────────────────────────── */
+    .sticky-cta {
+      position: fixed;
+      bottom: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      z-index: 50;
+      padding: .75rem 1rem 1.25rem;
+      background: linear-gradient(to top, var(--bg) 70%, rgba(255,255,255,0));
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .3s ease;
+    }
+
+    .sticky-cta.visible { opacity: 1; pointer-events: all; }
+
+    .sticky-cta-inner {
+      background: var(--card);
+      border-radius: 1.5rem;
+      padding: 1rem 1.1rem;
+      box-shadow: 0 -2px 24px rgba(0,0,0,.12);
+      border: 1px solid var(--border);
+    }
+
+    .sticky-progress-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: .85rem;
+    }
+
+    .sticky-amount {
+      font-size: 1rem;
+      font-weight: 800;
+    }
+
+    .sticky-goal {
+      font-size: .88rem;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    /* ─── MODAL DE DOAÇÃO (simplificado) ────────────────────────────── */
+    .modal-backdrop {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.5);
+      z-index: 200;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .modal-backdrop.open { display: flex; }
+
+    .modal-sheet {
+      background: var(--bg);
+      border-radius: 1.5rem 1.5rem 0 0;
+      padding: 1.5rem 1.25rem 2.5rem;
+      width: 100%;
+      max-width: 480px;
+      animation: slideUp .35s ease;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to   { transform: translateY(0); }
+    }
+
+    .modal-handle {
+      width: 36px; height: 4px;
+      background: var(--border);
+      border-radius: var(--radius-pill);
+      margin: 0 auto 1.25rem;
+    }
+
+    .modal-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin-bottom: 1.25rem;
+    }
+
+    .amount-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: .6rem;
+      margin-bottom: 1rem;
+    }
+
+    .amount-btn {
+      border: 1.5px solid var(--border);
+      border-radius: .75rem;
+      padding: .75rem .5rem;
+      font-size: .95rem;
+      font-weight: 700;
+      text-align: center;
+      transition: all var(--transition);
+      cursor: pointer;
+    }
+    .amount-btn:hover,
+    .amount-btn.selected {
+      border-color: var(--accent-dark);
+      background: rgba(201,123,16,.07);
+      color: var(--accent-dark);
+    }
+
+    .amount-custom {
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: .75rem;
+      padding: .75rem 1rem;
+      font-size: .95rem;
+      font-weight: 600;
+      font-family: var(--font);
+      margin-bottom: 1rem;
+      outline: none;
+      transition: border-color var(--transition);
+    }
+    .amount-custom:focus { border-color: var(--accent-dark); }
+
+    .modal-note {
+      font-size: .8rem;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+      line-height: 1.5;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--bg-alt);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      cursor: pointer;
+      color: var(--muted);
+      transition: background var(--transition);
+    }
+    .modal-close:hover { background: var(--border); }
+
+    .modal-sheet { position: relative; }
+
+    /* ─── MODAL PARTILHAR ───────────────────────────────────────────── */
+    .share-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: .6rem;
+      margin-bottom: 1rem;
+    }
+
+    .share-btn {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      padding: .75rem 1rem;
+      border: 1.5px solid var(--border);
+      border-radius: .75rem;
+      font-size: .9rem;
+      font-weight: 600;
+      transition: all var(--transition);
+      cursor: pointer;
+    }
+    .share-btn:hover { background: var(--bg-alt); }
+    .share-btn svg   { width: 20px; height: 20px; flex-shrink: 0; }
+
+    .share-copy {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      border: 1.5px solid var(--border);
+      border-radius: .75rem;
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+
+    .share-url {
+      flex: 1;
+      padding: .7rem 1rem;
+      font-size: .82rem;
+      color: var(--muted);
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: var(--font);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .share-copy-btn {
+      padding: .7rem 1rem;
+      background: var(--primary);
+      color: var(--primary-fg);
+      font-size: .82rem;
+      font-weight: 700;
+      white-space: nowrap;
+      transition: opacity var(--transition);
+    }
+    .share-copy-btn:hover { opacity: .8; }
+
+    /* ─── RESPONSIVE ────────────────────────────────────────────────── */
+    @media (min-width: 481px) {
+      .hero-visual { max-height: 560px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ─── HEADER ─────────────────────────────────────────────────────── -->
+  <header class="site-header">
+    <div class="header-inner">
+      <button class="nav-btn" aria-label="Pesquisar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        Pesquisar
+      </button>
+
+      <a href="#" class="logo" aria-label="Coração Solidário — Início">
+        <img src="/logo-coracao.png" alt="Coração Solidário" />
+      </a>
+
+      <button class="nav-btn" aria-label="Menu" id="menu-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+        Menu
+      </button>
+    </div>
+  </header>
+
+  <!-- ─── MAIN ───────────────────────────────────────────────────────── -->
+  <main>
+
+    <!-- HERO -->
+    <section class="hero" aria-label="Campanha: Ajude o Rodrigo">
+      <div class="hero-visual">
+        <img class="hero-slide active" src="/hero.jpg"  alt="Animais resgatados — precisamos de ajuda urgente" loading="eager" fetchpriority="high" />
+        <img class="hero-slide"        src="/hero2.jpg" alt="Campanha de resgate animal" loading="lazy" />
+        <img class="hero-slide"        src="/hero3.jpg" alt="Campanha de resgate animal" loading="lazy" />
+        <img class="hero-slide"        src="/hero4.jpg" alt="Campanha de resgate animal" loading="lazy" />
+
+        <div class="hero-gradient-top" aria-hidden="true"></div>
+        <div class="hero-gradient-bottom" aria-hidden="true"></div>
+
+        <div class="hero-dots" aria-hidden="true">
+          <span class="hero-dot active"></span>
+          <span class="hero-dot"></span>
+          <span class="hero-dot"></span>
+          <span class="hero-dot"></span>
+        </div>
+
+        <h1 class="sr-only">Precisamos de Ajuda Urgente — Devemos mais de 40.000€ ao veterinário</h1>
+
+        <!-- Onda de transição para o fundo branco -->
+        <svg class="hero-wave" viewBox="0 0 100 7" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0,7 L0,5 Q50,-2 100,5 L100,7 Z"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- PROGRESSO -->
+    <section class="progress-section reveal" id="progress">
+      <div class="progress-card">
+        <div class="progress-top">
+          <!-- Anel SVG de progresso -->
+          <svg class="progress-ring" width="72" height="72" viewBox="0 0 72 72" aria-label="19% angariado">
+            <circle class="track" cx="36" cy="36" r="28"/>
+            <circle class="fill" cx="36" cy="36" r="28" id="ring-fill"/>
+          </svg>
+
+          <div class="progress-info">
+            <p class="progress-amount">
+              €4.000 angariados
+              <span class="progress-goal">de €40.000</span>
+            </p>
+            <button class="progress-ticker" aria-label="Ver doações recentes">
+              Maria Santos doou €25
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Barra linear -->
+        <div class="progress-bar-wrap" role="progressbar" aria-valuenow="19" aria-valuemin="0" aria-valuemax="100">
+          <div class="progress-bar-fill" id="progress-bar"></div>
+        </div>
+        <div class="progress-meta">
+          <span>10% da meta</span>
+          <span>87 doadores</span>
+        </div>
+
+        <!-- CTAs principais -->
+        <div class="cta-row">
+          <button class="btn btn-primary" id="open-donate-top" aria-label="Fazer uma doação">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+            Doar
+          </button>
+          <button class="btn btn-secondary" id="open-share-top" aria-label="Partilhar campanha">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" x2="12" y1="2" y2="15"/></svg>
+            Partilhar
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROVA SOCIAL -->
+    <section class="social-proof" aria-labelledby="social-proof-heading">
+      <div class="social-proof-inner">
+        <p class="social-proof-label reveal">Impacto real</p>
+        <div class="stats-grid">
+          <div class="stat-card reveal reveal-delay-1">
+            <div class="stat-number">87</div>
+            <p class="stat-label">pessoas já doaram</p>
+          </div>
+          <div class="stat-card reveal reveal-delay-2">
+            <div class="stat-number"><span>+</span>150</div>
+            <p class="stat-label">animais resgatados este ano</p>
+          </div>
+          <div class="stat-card reveal reveal-delay-1">
+            <div class="stat-number"><span>€</span>20K</div>
+            <p class="stat-label">em dívidas veterinárias</p>
+          </div>
+          <div class="stat-card reveal reveal-delay-2">
+            <div class="stat-number"><span>€</span>40K</div>
+            <p class="stat-label">objetivo da campanha</p>
+          </div>
+        </div>
+
+        <!-- Doação em destaque -->
+        <div class="highlight-donation reveal">
+          <div class="highlight-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 14h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 16"/><path d="m7 20 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9"/><path d="m2 15 6 6"/><path d="M19.5 8.5c.7-.7 1.5-1.6 1.5-2.7A2.73 2.73 0 0 0 16 4a2.78 2.78 0 0 0-5 1.8c0 1.2.8 2 1.5 2.8L16 12Z"/></svg>
+          </div>
+          <p class="highlight-text">
+            <strong>Ana Rodrigues</strong> doou €50 há pouco tempo — cada contribuição permite-nos continuar a salvar mais patudos.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOBRE A CAUSA -->
+    <section class="cause-section" aria-labelledby="cause-heading">
+      <div class="section-badge reveal">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+        Doação protegida
+      </div>
+
+      <h2 class="section-title reveal" id="cause-heading">
+        Precisamos de Ajuda Urgente
+      </h2>
+
+      <div class="cause-organizer reveal">
+        <div class="cause-avatar" aria-hidden="true"><img src="/logo-alaar.jpg" alt="ALAAR" style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;" /></div>
+        <p class="cause-organizer-name">ALAAR - Associação Limiana para o Ambiente e Animais de Rua</p>
+      </div>
+
+      <div class="cause-text-wrap collapsed" id="cause-wrap">
+        <div class="cause-text">
+          <h2>A realidade é esta</h2>
+
+          <p><strong>Não temos dinheiro para liquidar as contas do veterinário.</strong></p>
+
+          <p>Quem nos acompanha sabe que este ano tem sido extremamente difícil. Temos resgatado cães e respondido a pedidos de ajuda como nunca antes. <strong>Desde o início do ano, já ajudamos mais de 150 animais.</strong></p>
+
+          <p>Todos passam pelo veterinário. A maioria necessita de tratamentos e internamentos, e são <strong>TODOS vacinados e chipados</strong>. Cada vida salva representa um custo enorme!</p>
+
+          <p><em>A nossa única fonte de apoio são as vossas doações. São as pessoas que nos ajudam que tornam possível continuar a salvar mais e mais patudos.</em></p>
+
+          <p>Mas neste momento <strong>não conseguimos continuar a ajudar</strong> se não conseguirmos liquidar as dívidas que temos nas clínicas veterinárias. Estamos a chegar ao limite e não nos podemos continuar a afundar.</p>
+
+          <h2>As dívidas em detalhe</h2>
+
+          <p>Neste momento, num dos veterinários, apenas conseguimos liquidar as contas até novembro. <strong>Dezembro já temos uma fatura no valor de 9.015,10€</strong> para pagar — e ainda precisamos de conseguir liquidar os meses de janeiro, fevereiro, março e abril.</p>
+
+          <p>Na outra clínica veterinária temos atualmente pendentes duas faturas:</p>
+          <p>
+            ◾ <strong>4.563,65€</strong><br>
+            ◾ <strong>5.171,68€</strong>
+          </p>
+
+          <p>Só estas despesas já ascendem a cerca de <strong>20 MIL EUROS</strong>… e ainda faltam os valores pendentes de janeiro, fevereiro, março e abril da outra clínica.</p>
+
+          <h2>O que pedimos</h2>
+
+          <p>Criámos esta campanha com o objetivo de angariar <strong>40 mil euros</strong>. Sabemos que este valor não será suficiente para liquidar tudo, mas já seria uma ajuda enorme para conseguirmos respirar e continuar a salvar vidas.</p>
+
+          <p><strong>Qualquer contributo faz a diferença. Os nossos patudos precisam mais do que nunca de VOCÊS!</strong></p>
+        </div>
+      </div>
+
+      <button class="read-more-btn" id="read-more-btn" aria-expanded="false">Ler mais</button>
+
+      <!-- CTAs secundários -->
+      <div class="cta-row" style="margin-top: 1.25rem;">
+        <button class="btn btn-outline" id="open-donate-mid">Doar</button>
+        <button class="btn btn-outline" id="open-share-mid">Partilhar</button>
+      </div>
+    </section>
+
+    <!-- DESPESAS EM DETALHE -->
+    <section class="treatment-section" aria-labelledby="treatment-heading">
+      <div class="treatment-inner">
+        <h2 class="section-title reveal" id="treatment-heading">As dívidas em detalhe</h2>
+        <p class="reveal" style="color: var(--muted); font-size: .9rem; margin-top: -.25rem;">Transparência total sobre as faturas que precisamos de liquidar.</p>
+
+        <ol class="treatment-steps">
+          <li class="step done reveal">
+            <div class="step-number"><img src="/logo-alaar.jpg" alt="Alaar" /></div>
+            <div class="step-body">
+              <p class="step-title">
+                Clínica Alaar 1 — até novembro
+                <span class="step-status" style="background:rgba(45,122,69,.15);color:#1a5c2a;">Pago</span>
+              </p>
+              <p class="step-desc">Contas até novembro já liquidadas. Esforço enorme da nossa parte para chegar até aqui.</p>
+            </div>
+          </li>
+
+          <li class="step active reveal reveal-delay-1">
+            <div class="step-number"><img src="/logo-alaar.jpg" alt="Alaar" /></div>
+            <div class="step-body">
+              <p class="step-title">
+                Clínica Alaar 1 — dezembro
+                <span class="step-status">Urgente</span>
+              </p>
+              <p class="step-desc">Fatura de <strong>9.015,10€</strong> em aberto. Precisamos de liquidar com urgência para manter o acesso aos serviços veterinários.</p>
+            </div>
+          </li>
+
+          <li class="step pending reveal reveal-delay-2">
+            <div class="step-number"><img src="/logo-alaar.jpg" alt="Alaar" /></div>
+            <div class="step-body">
+              <p class="step-title">
+                Clínica Alaar 1 — jan. a abril
+                <span class="step-status">Pendente</span>
+              </p>
+              <p class="step-desc">Os meses de janeiro, fevereiro, março e abril ainda aguardam liquidação. Valor total a confirmar.</p>
+            </div>
+          </li>
+
+          <li class="step pending reveal reveal-delay-1">
+            <div class="step-number"><img src="/logo-alaar.jpg" alt="Alaar" /></div>
+            <div class="step-body">
+              <p class="step-title">
+                Clínica Alaar 2 — fatura 1
+                <span class="step-status">Pendente</span>
+              </p>
+              <p class="step-desc">Fatura de <strong>4.563,65€</strong> pendente de pagamento nesta clínica parceira.</p>
+            </div>
+          </li>
+
+          <li class="step pending reveal reveal-delay-2">
+            <div class="step-number"><img src="/logo-alaar.jpg" alt="Alaar" /></div>
+            <div class="step-body">
+              <p class="step-title">
+                Clínica Alaar 2 — fatura 2
+                <span class="step-status">Pendente</span>
+              </p>
+              <p class="step-desc">Segunda fatura de <strong>5.171,68€</strong> — juntas, só estas duas faturas da Clínica Alaar 2 somam quase 10 mil euros.</p>
+            </div>
+          </li>
+        </ol>
+
+        <!-- Resumo financeiro -->
+        <div style="margin-top: 1.75rem; background: #fff; border-radius: var(--radius); padding: 1.1rem 1.25rem; border: 1.5px solid var(--border);" class="reveal">
+          <p style="font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: .75rem;">Resumo das despesas conhecidas</p>
+          <div style="display:flex; justify-content:space-between; font-size:.9rem; margin-bottom:.4rem;">
+            <span>Clínica Alaar 1 — dezembro</span><strong>9.015,10€</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:.9rem; margin-bottom:.4rem;">
+            <span>Clínica Alaar 2 — fatura 1</span><strong>4.563,65€</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:.9rem; margin-bottom:.75rem; padding-bottom:.75rem; border-bottom:1px solid var(--border);">
+            <span>Clínica Alaar 2 — fatura 2</span><strong>5.171,68€</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:1rem; font-weight:800;">
+            <span>Total confirmado</span>
+            <span style="color: var(--accent-dark);">≈ 18.750,43€</span>
+          </div>
+          <p style="font-size:.78rem; color:var(--muted); margin-top:.5rem;">+ meses jan.–abr. da Clínica Alaar 1 (valor a apurar)</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- DOAÇÕES RECENTES -->
+    <section class="donations-section" aria-labelledby="donations-heading">
+      <div class="donations-header">
+        <h2 class="section-title" id="donations-heading" style="font-size: 1.35rem; margin: 0;">Doações</h2>
+        <span class="donations-count">312</span>
+      </div>
+
+      <ul class="donation-list">
+        <li class="donation-item reveal">
+          <div class="donation-avatar special" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 14h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 16"/><path d="m7 20 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9"/><path d="m2 15 6 6"/><path d="M19.5 8.5c.7-.7 1.5-1.6 1.5-2.7A2.73 2.73 0 0 0 16 4a2.78 2.78 0 0 0-5 1.8c0 1.2.8 2 1.5 2.8L16 12Z"/></svg>
+          </div>
+          <div>
+            <p class="donation-name">Anónimo</p>
+            <p class="donation-amount"><strong>€20</strong> <span class="donation-time">· Doação recente</span></p>
+          </div>
+        </li>
+
+        <li class="donation-item reveal reveal-delay-1">
+          <div class="donation-avatar special" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 14h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 16"/><path d="m7 20 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9"/><path d="m2 15 6 6"/><path d="M19.5 8.5c.7-.7 1.5-1.6 1.5-2.7A2.73 2.73 0 0 0 16 4a2.78 2.78 0 0 0-5 1.8c0 1.2.8 2 1.5 2.8L16 12Z"/></svg>
+          </div>
+          <div>
+            <p class="donation-name">Anónimo</p>
+            <p class="donation-amount"><strong>€500</strong> <span class="donation-time">· Maior doação</span></p>
+          </div>
+        </li>
+
+        <li class="donation-item reveal reveal-delay-2">
+          <div class="donation-avatar" aria-hidden="true">A</div>
+          <div>
+            <p class="donation-name">Ana Rodrigues</p>
+            <p class="donation-amount"><strong>€50</strong> <span class="donation-time">· há 3 horas</span></p>
+          </div>
+        </li>
+
+        <li class="donation-item reveal">
+          <div class="donation-avatar" aria-hidden="true">M</div>
+          <div>
+            <p class="donation-name">Maria Santos</p>
+            <p class="donation-amount"><strong>€25</strong> <span class="donation-time">· há 1 dia</span></p>
+          </div>
+        </li>
+
+        <li class="donation-item reveal reveal-delay-1">
+          <div class="donation-avatar" aria-hidden="true">J</div>
+          <div>
+            <p class="donation-name">João Ferreira</p>
+            <p class="donation-amount"><strong>€100</strong> <span class="donation-time">· há 2 dias</span></p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- DIFERENCIAIS DA PLATAFORMA -->
+    <section class="features-section" aria-labelledby="features-heading">
+      <div class="features-inner">
+        <h2 class="features-title reveal" id="features-heading">
+          A sua plataforma simples, eficaz<br>e de confiança para pedir ajuda
+        </h2>
+
+        <ul class="features-list">
+          <li class="feature-item reveal">
+            <div class="feature-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 14h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 16"/><path d="m7 20 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9"/><path d="m2 15 6 6"/><path d="M19.5 8.5c.7-.7 1.5-1.6 1.5-2.7A2.73 2.73 0 0 0 16 4a2.78 2.78 0 0 0-5 1.8c0 1.2.8 2 1.5 2.8L16 12Z"/></svg>
+            </div>
+            <div>
+              <p class="feature-title">Simples</p>
+              <p class="feature-desc">Doe de forma rápida e fácil, em poucos segundos, sem complicações.</p>
+            </div>
+          </li>
+
+          <li class="feature-item reveal reveal-delay-1">
+            <div class="feature-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/></svg>
+            </div>
+            <div>
+              <p class="feature-title">Eficaz</p>
+              <p class="feature-desc">Envie ajuda diretamente às pessoas e causas que lhe importam.</p>
+            </div>
+          </li>
+
+          <li class="feature-item reveal reveal-delay-2">
+            <div class="feature-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+            </div>
+            <div>
+              <p class="feature-title">De confiança</p>
+              <p class="feature-desc">A sua doação está protegida pela <a href="#">Garantia Ponte Solidária</a>. A sua contribuição só é transferida quando a meta é atingida.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section class="cta-final reveal" aria-label="Chamada para ação final">
+      <div class="section-badge" style="display: inline-flex; margin-bottom: 1rem;">
+        🐾 Cada euro conta
+      </div>
+
+      <h2 class="cta-final-title">
+        Os nossos patudos<br>precisam de <em>você</em> agora.
+      </h2>
+      <p class="cta-final-sub">
+        Não deixe que cheguemos ao ponto de ter de fechar portas. Uma doação de qualquer valor faz a diferença — junte-se às 87 pessoas que já agiram pelos nossos animais.
+      </p>
+
+      <div class="cta-final-row">
+        <button class="btn btn-primary" id="open-donate-final" style="font-size: 1.05rem; padding: 1rem;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          Fazer uma doação
+        </button>
+        <button class="btn btn-outline" id="open-share-final">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" x2="12" y1="2" y2="15"/></svg>
+          Partilhar campanha
+        </button>
+      </div>
+    </section>
+
+    <!-- ORGANIZADOR -->
+    <section class="organizer-section" aria-labelledby="organizer-heading">
+      <div class="organizer-inner">
+        <h2 class="section-title reveal" id="organizer-heading" style="font-size: 1.25rem;">Organizador</h2>
+        <div class="organizer-card reveal">
+          <div class="organizer-avatar" aria-hidden="true" style="overflow:hidden;border-radius:50%;"><img src="/logo-alaar.jpg" alt="ALAAR" style="width:100%;height:100%;object-fit:cover;display:block;" /></div>
+          <div>
+            <p class="organizer-name">ALAAR - Associação Limiana para o Ambiente e Animais de Rua</p>
+            <p class="organizer-role">Organizador</p>
+            <p class="organizer-location">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:.2rem"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              Portugal
+            </p>
+          </div>
+        </div>
+
+        <p style="margin-top: 1rem; font-size: .82rem; color: var(--muted);">
+          13 de maio de 2026 · <a href="#" style="text-decoration: underline;">Animais</a>
+        </p>
+
+        <div class="section-badge" style="margin-top: .75rem;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+          Doação protegida
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ─── FOOTER ─────────────────────────────────────────────────────── -->
+  <footer class="site-footer" aria-label="Rodapé do site">
+    <div class="footer-inner">
+      <button class="footer-region">
+        <span aria-hidden="true">🇵🇹</span>
+        <span>Portugal</span>
+        <span style="color: var(--muted);">·</span>
+        <span>Português</span>
+      </button>
+
+      <div class="footer-social" aria-label="Redes sociais">
+        <a href="#" class="social-link" aria-label="Facebook">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <a href="#" class="social-link" style="background: transparent; border: 1.5px solid var(--border); color: var(--primary);" aria-label="YouTube">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></svg>
+        </a>
+        <a href="#" class="social-link" style="background: transparent; border: 1.5px solid var(--border); color: var(--primary); font-weight: 800; font-size: 1rem;" aria-label="X (Twitter)">𝕏</a>
+        <a href="#" class="social-link" style="background: transparent; border: 1.5px solid var(--border); color: var(--primary);" aria-label="Instagram">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+        </a>
+      </div>
+
+      <p class="footer-copy">© 2010–2026 Ponte Solidária</p>
+
+      <nav aria-label="Links legais">
+        <ul class="footer-links">
+          <li><a href="#">Termos</a></li>
+          <li><a href="#">Aviso de Privacidade</a></li>
+          <li><a href="#">Legal</a></li>
+          <li><a href="#">Declaração de Acessibilidade</a></li>
+          <li><a href="#">Política de Cookies</a></li>
+          <li><a href="#">Gerir Preferências de Cookies</a></li>
+          <li>
+            <a href="#">As suas Preferências de Privacidade
+              <span style="display:inline-flex;align-items:center;margin-left:.35rem;background:#3b5bdb;color:#fff;font-size:.7rem;font-weight:700;padding:.1rem .4rem;border-radius:.3rem;">✦ ✦</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- ─── STICKY BOTTOM CTA ─────────────────────────────────────────── -->
+  <div class="sticky-cta" id="sticky-cta" aria-hidden="true">
+    <div class="sticky-cta-inner">
+      <div class="sticky-progress-row">
+        <div>
+          <p class="sticky-amount">€4.000 <span class="sticky-goal">de €40.000</span></p>
+          <div class="progress-bar-wrap" style="margin-top:.4rem;">
+            <div class="progress-bar-fill" style="width: 19%;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="cta-row" style="margin-top: 0;">
+        <button class="btn btn-primary" id="open-donate-sticky">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          Doar
+        </button>
+        <button class="btn btn-secondary" id="open-share-sticky">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" x2="12" y1="2" y2="15"/></svg>
+          Partilhar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── MODAL: DOAÇÃO ─────────────────────────────────────────────── -->
+  <div class="modal-backdrop" id="donate-modal" role="dialog" aria-modal="true" aria-labelledby="donate-modal-title">
+    <div class="modal-sheet">
+      <div class="modal-handle" aria-hidden="true"></div>
+      <button class="modal-close" id="close-donate" aria-label="Fechar">✕</button>
+      <h2 class="modal-title" id="donate-modal-title">Escolha o valor da doação</h2>
+
+      <div class="amount-grid" role="group" aria-label="Valores sugeridos">
+        <button class="amount-btn" data-amount="10">€10</button>
+        <button class="amount-btn selected" data-amount="25">€25</button>
+        <button class="amount-btn" data-amount="50">€50</button>
+        <button class="amount-btn" data-amount="100">€100</button>
+        <button class="amount-btn" data-amount="250">€250</button>
+        <button class="amount-btn" data-amount="500">€500</button>
+      </div>
+
+      <label for="custom-amount" class="sr-only">Outro valor (€)</label>
+      <input type="number" class="amount-custom" id="custom-amount" placeholder="Outro valor (€)" min="1" aria-label="Inserir outro valor em euros" />
+
+      <p class="modal-note">
+        🔒 A sua doação está protegida pela <strong>Garantia Ponte Solidária</strong>. Processamento seguro via MB Way, cartão de crédito ou transferência. 100% do valor reverte para os nossos patudos.
+      </p>
+
+      <button class="btn btn-primary" style="width: 100%; font-size: 1rem; padding: 1rem;" id="proceed-donate">
+        Continuar com a doação 🐾
+      </button>
+    </div>
+  </div>
+
+  <!-- ─── MODAL: PARTILHAR ──────────────────────────────────────────── -->
+  <div class="modal-backdrop" id="share-modal" role="dialog" aria-modal="true" aria-labelledby="share-modal-title">
+    <div class="modal-sheet">
+      <div class="modal-handle" aria-hidden="true"></div>
+      <button class="modal-close" id="close-share" aria-label="Fechar">✕</button>
+      <h2 class="modal-title" id="share-modal-title">Partilhe e multiplique o impacto</h2>
+
+      <div class="share-copy">
+        <input type="text" class="share-url" value="https://pontesolidariapt.site/" readonly aria-label="Link da campanha" />
+        <button class="share-copy-btn" id="copy-link">Copiar</button>
+      </div>
+
+      <div class="share-grid">
+        <button class="share-btn" aria-label="Partilhar no Facebook">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#1877f2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          Facebook
+        </button>
+        <button class="share-btn" aria-label="Partilhar no WhatsApp">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#25d366"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          WhatsApp
+        </button>
+        <button class="share-btn" aria-label="Partilhar no Instagram">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="url(#ig-grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <defs><linearGradient id="ig-grad" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#f09433"/><stop offset="50%" style="stop-color:#e6683c"/><stop offset="100%" style="stop-color:#dc2743"/></linearGradient></defs>
+            <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+          </svg>
+          Instagram
+        </button>
+        <button class="share-btn" aria-label="Partilhar no X">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.264 5.638Zm-1.161 17.52h1.833L7.084 4.126H5.117Z"/></svg>
+          X (Twitter)
+        </button>
+      </div>
+
+      <p style="font-size: .8rem; color: var(--muted); text-align: center; margin-top: .5rem;">
+        Cada partilha pode trazer novos doadores. Os nossos patudos agradecem! 🐾
+      </p>
+    </div>
+  </div>
+
+  <!-- ─── SCRIPTS ───────────────────────────────────────────────────── -->
+  <script>
+    /* ── Carrossel hero ── */
+    (function () {
+      const slides = document.querySelectorAll('.hero-slide');
+      const dots   = document.querySelectorAll('.hero-dot');
+      let current  = 0;
+      let timer;
+
+      function goTo(idx) {
+        slides[current].classList.remove('active');
+        dots[current].classList.remove('active');
+        current = (idx + slides.length) % slides.length;
+        slides[current].classList.add('active');
+        dots[current].classList.add('active');
+      }
+
+      function next() { goTo(current + 1); }
+
+      function start() { timer = setInterval(next, 4000); }
+      function stop()  { clearInterval(timer); }
+
+      /* pausa quando o utilizador não está a ver a página */
+      document.addEventListener('visibilitychange', () =>
+        document.hidden ? stop() : start()
+      );
+
+      start();
+    })();
+
+    /* ── Scroll reveal via Intersection Observer ── */
+    const revealEls = document.querySelectorAll('.reveal');
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          revealObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => revealObs.observe(el));
+
+    /* ── Animar barra de progresso e anel SVG quando entrar em vista ── */
+    const bar  = document.getElementById('progress-bar');
+    const ring = document.getElementById('ring-fill');
+    const progressObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          bar.style.width = '10%';
+          // stroke-dashoffset para 10%: circunferência=175.93, offset = 175.93*(1-.10) ≈ 158.34
+          ring.style.strokeDashoffset = '158.34';
+          progressObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    progressObs.observe(document.getElementById('progress'));
+
+    /* ── Sticky CTA: mostrar após scroll ── */
+    const stickyCTA    = document.getElementById('sticky-cta');
+    const progressCard = document.getElementById('progress');
+    const stickyObs    = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        const show = !e.isIntersecting;
+        stickyCTA.classList.toggle('visible', show);
+        stickyCTA.setAttribute('aria-hidden', String(!show));
+      });
+    }, { threshold: 0 });
+    stickyObs.observe(progressCard);
+
+    /* ── Ler mais / colapsar texto ── */
+    const readMoreBtn = document.getElementById('read-more-btn');
+    const causeWrap   = document.getElementById('cause-wrap');
+    let expanded = false;
+
+    readMoreBtn.addEventListener('click', () => {
+      expanded = !expanded;
+      if (expanded) {
+        causeWrap.classList.remove('collapsed');
+        causeWrap.style.maxHeight = causeWrap.scrollHeight + 'px';
+        readMoreBtn.textContent = 'Ler menos';
+        readMoreBtn.setAttribute('aria-expanded', 'true');
+      } else {
+        causeWrap.style.maxHeight = '';
+        causeWrap.classList.add('collapsed');
+        readMoreBtn.textContent = 'Ler mais';
+        readMoreBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    /* ── Modal helpers ── */
+    function openModal(id) {
+      const m = document.getElementById(id);
+      m.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      m.querySelector('.modal-sheet').focus?.();
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // Fechar ao clicar no backdrop
+    document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
+      backdrop.addEventListener('click', (e) => {
+        if (e.target === backdrop) closeModal(backdrop.id);
+      });
+    });
+
+    // Fechar com Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-backdrop.open').forEach(m => closeModal(m.id));
+      }
+    });
+
+    /* ── Botões de doação ── */
+    ['open-donate-top','open-donate-mid','open-donate-final','open-donate-sticky'].forEach(id => {
+      document.getElementById(id)?.addEventListener('click', () => openModal('donate-modal'));
+    });
+    document.getElementById('close-donate').addEventListener('click', () => closeModal('donate-modal'));
+
+    /* ── Seleção de valor ── */
+    document.querySelectorAll('.amount-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        document.getElementById('custom-amount').value = '';
+      });
+    });
+
+    document.getElementById('custom-amount').addEventListener('input', () => {
+      document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
+    });
+
+    document.getElementById('proceed-donate').addEventListener('click', () => {
+      const selected   = document.querySelector('.amount-btn.selected');
+      const customVal  = document.getElementById('custom-amount').value;
+      const rawAmount  = customVal
+        ? parseFloat(customVal)
+        : parseFloat((selected?.dataset.amount) || '25');
+
+      if (!rawAmount || rawAmount < 1 || rawAmount > 5000) {
+        document.getElementById('custom-amount').focus();
+        return;
+      }
+
+      closeModal('donate-modal');
+      location.href = `/checkout.html?amount=${rawAmount}`;
+    });
+
+    /* ── Botões de partilha ── */
+    ['open-share-top','open-share-mid','open-share-final','open-share-sticky'].forEach(id => {
+      document.getElementById(id)?.addEventListener('click', () => openModal('share-modal'));
+    });
+    document.getElementById('close-share').addEventListener('click', () => closeModal('share-modal'));
+
+    /* ── Copiar link ── */
+    document.getElementById('copy-link').addEventListener('click', function() {
+      const url = document.querySelector('.share-url');
+      url.select();
+      try {
+        navigator.clipboard.writeText(url.value).then(() => {
+          this.textContent = 'Copiado!';
+          setTimeout(() => { this.textContent = 'Copiar'; }, 2000);
+        });
+      } catch {
+        document.execCommand('copy');
+        this.textContent = 'Copiado!';
+        setTimeout(() => { this.textContent = 'Copiar'; }, 2000);
+      }
+    });
+
+    /* ── Botões de partilha nas redes sociais ── */
+    const campaignURL  = encodeURIComponent('https://pontesolidariapt.site/');
+    const campaignText = encodeURIComponent('Precisamos de ajuda urgente para salvar os nossos patudos! Já ajudámos mais de 150 animais este ano e temos 20 mil euros em dívidas veterinárias. Qualquer donativo faz a diferença! 🐾');
+
+    document.querySelector('[aria-label="Partilhar no Facebook"]').addEventListener('click', () => {
+      window.open(`https://www.facebook.com/sharer/sharer.php?u=${campaignURL}`, '_blank', 'width=600,height=400');
+    });
+
+    document.querySelector('[aria-label="Partilhar no WhatsApp"]').addEventListener('click', () => {
+      window.open(`https://api.whatsapp.com/send?text=${campaignText}%20${campaignURL}`, '_blank');
+    });
+
+    document.querySelector('[aria-label="Partilhar no X"]').addEventListener('click', () => {
+      window.open(`https://twitter.com/intent/tweet?text=${campaignText}&url=${campaignURL}`, '_blank', 'width=600,height=400');
+    });
+
+    /* ── Ticker de doações animado ── */
+    const donations = [
+      { name: 'Maria Santos', amount: '€25' },
+      { name: 'Ana Rodrigues', amount: '€50' },
+      { name: 'João Ferreira', amount: '€100' },
+      { name: 'Anónimo', amount: '€20' },
+      { name: 'Anónimo', amount: '€500' },
+    ];
+    let tickerIdx = 0;
+
+    function rotateTicker() {
+      const tickers = document.querySelectorAll('.progress-ticker');
+      tickerIdx = (tickerIdx + 1) % donations.length;
+      const d = donations[tickerIdx];
+      tickers.forEach(t => {
+        t.style.opacity = '0';
+        setTimeout(() => {
+          t.childNodes[0].textContent = `${d.name} doou ${d.amount}`;
+          t.style.opacity = '1';
+        }, 300);
+      });
+    }
+
+    setInterval(rotateTicker, 4000);
+  </script>
+
+</body>
+</html>
