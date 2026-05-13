@@ -9,7 +9,7 @@ const orders = global._orders || (global._orders = new Map());
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'Method not allowed' });
 
-  const { amount, paymentMethod, customer } = req.body;
+  const { amount, paymentMethod, customer, utms } = req.body;
   if (!amount || typeof amount !== 'number' || amount < 1 || amount > 5000) {
     return res.status(400).json({ ok: false, error: 'amount must be a number between 1 and 5000' });
   }
@@ -26,6 +26,7 @@ module.exports = async (req, res) => {
       createdAt,
       paidAt:        null,
       customer:      customer || null,
+      utms:          utms     || null,
     });
 
     // Notificar Utmify — pedido criado (pending)
@@ -36,6 +37,7 @@ module.exports = async (req, res) => {
       status:        'pending',
       createdAt,
       customer:      customer || null,
+      utms:          utms     || null,
     });
 
     res.json({ ok: true, orderId, transactionId: payment.transactionId, amount: payment.amount, currency: payment.currency });

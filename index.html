@@ -1792,6 +1792,20 @@
 
   <!-- ─── SCRIPTS ───────────────────────────────────────────────────── -->
   <script>
+    /* ── Captura e persistência de UTMs no localStorage ── */
+    (function () {
+      const p = new URLSearchParams(location.search);
+      const keys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','src','sck'];
+      let found = false;
+      keys.forEach(k => { if (p.get(k)) found = true; });
+      if (found) {
+        const stored = {};
+        keys.forEach(k => { stored[k] = p.get(k) || null; });
+        localStorage.setItem('utmify_utms', JSON.stringify(stored));
+      }
+    })();
+  </script>
+  <script>
     /* ── Carrossel hero ── */
     (function () {
       const slides   = document.querySelectorAll('.hero-slide');

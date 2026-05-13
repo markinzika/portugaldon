@@ -47,6 +47,7 @@ module.exports = async (req, res) => {
         createdAt:     o.createdAt,
         paidAt:        o.paidAt,
         customer:      o.customer || null,
+        utms:          o.utms    || null,
       });
     }
 
@@ -60,6 +61,7 @@ module.exports = async (req, res) => {
         status:        'refused',
         createdAt:     o.createdAt,
         customer:      o.customer || null,
+        utms:          o.utms    || null,
       });
     }
 

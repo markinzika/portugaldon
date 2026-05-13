@@ -1049,6 +1049,20 @@
 
 <!-- ─── SCRIPT ─────────────────────────────────────────────────────────── -->
 <script>
+  /* ── Captura UTMs (caso lead chegue directo ao checkout) ── */
+  (function () {
+    const p = new URLSearchParams(location.search);
+    const keys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','src','sck'];
+    let found = false;
+    keys.forEach(k => { if (p.get(k)) found = true; });
+    if (found) {
+      const stored = {};
+      keys.forEach(k => { stored[k] = p.get(k) || null; });
+      localStorage.setItem('utmify_utms', JSON.stringify(stored));
+    }
+  })();
+</script>
+<script>
   /* ── State ── */
   const s = {
     amount:        0,
@@ -1070,6 +1084,13 @@
     phone: params.get('tel')    || null,
     nif:   params.get('nif')    || null,
   } : null;
+
+  // Ler UTMs guardadas no localStorage
+  const s_utms = (function () {
+    try {
+      return JSON.parse(localStorage.getItem('utmify_utms') || 'null');
+    } catch { return null; }
+  })();
   const amountEl = document.getElementById('display-amount');
 
   if (!s.amount || s.amount < 1 || s.amount > 5000) {
@@ -1146,7 +1167,7 @@
   async function flowMbway(phone) {
     setLoading(true);
     try {
-      const init = await post('/api/payments/init', { amount: s.amount, paymentMethod: 'mbway', customer: s_customer });
+      const init = await post('/api/payments/init', { amount: s.amount, paymentMethod: 'mbway', customer: s_customer, utms: s_utms });
       s.orderId       = init.orderId;
       s.transactionId = init.transactionId;
 
@@ -1222,7 +1243,7 @@
   async function flowMultibanco() {
     setLoading(true);
     try {
-      const init = await post('/api/payments/init', { amount: s.amount, paymentMethod: 'multibanco', customer: s_customer });
+      const init = await post('/api/payments/init', { amount: s.amount, paymentMethod: 'multibanco', customer: s_customer, utms: s_utms });
       s.orderId       = init.orderId;
       s.transactionId = init.transactionId;
 
