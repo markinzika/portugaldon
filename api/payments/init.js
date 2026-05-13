@@ -30,7 +30,8 @@ module.exports = async (req, res) => {
     });
 
     // Notificar Utmify — pedido criado (pending)
-    utmify.sendOrder({
+    // await obrigatório: Vercel termina a função após res.json()
+    await utmify.sendOrder({
       orderId,
       amount,
       paymentMethod: paymentMethod || 'mbway',

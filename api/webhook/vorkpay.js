@@ -39,7 +39,7 @@ module.exports = async (req, res) => {
       o.paidAt = data?.paidAt || new Date().toISOString();
 
       // Notificar Utmify — pedido aprovado
-      utmify.sendOrder({
+      await utmify.sendOrder({
         orderId,
         amount:        o.amount,
         paymentMethod: o.paymentMethod || 'mbway',
@@ -54,7 +54,7 @@ module.exports = async (req, res) => {
     if (event === 'payment.failed') {
       o.status = 'failed';
 
-      utmify.sendOrder({
+      await utmify.sendOrder({
         orderId,
         amount:        o.amount,
         paymentMethod: o.paymentMethod || 'mbway',
