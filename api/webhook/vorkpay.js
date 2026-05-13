@@ -1,9 +1,7 @@
 'use strict';
 require('dotenv').config();
-const crypto   = require('crypto');
-const utmify   = require('../../lib/utmify');
-
-const orders = global._orders || (global._orders = new Map());
+const crypto = require('crypto');
+const utmify = require('../../lib/utmify');
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
@@ -29,45 +27,42 @@ module.exports = async (req, res) => {
   catch { return res.status(400).json({ error: 'Invalid JSON body' }); }
 
   const { event, data } = payload;
-  const entry = [...orders.entries()].find(([, o]) => o.transactionId === data?.id);
+  console.log(`[webhook] ${event}`, JSON.stringify(data));
 
-  if (entry) {
-    const [orderId, o] = entry;
+  // Usa os dados que a VorkPay envia directamente — não depende do Map em memória
+  const orderId       = data?.orderId || data?.id || `vkp_${Date.now()}`;
+  const amount        = data?.amount  || 0;
+  const paidAt        = data?.paidAt  || new Date().toISOString();
+  const createdAt     = data?.createdAt || new Date().toISOString();
+  const paymentMethod = data?.paymentMethod || 'mbway';
 
-    if (event === 'payment.success') {
-      o.status = 'paid';
-      o.paidAt = data?.paidAt || new Date().toISOString();
+  if (event === 'payment.success') {
+    await utmify.sendOrder({
+      orderId,
+      amount,
+      paymentMethod,
+      status:    'paid',
+      createdAt,
+      paidAt,
+      customer:  null,
+      utms:      null,
+    });
+  }
 
-      // Notificar Utmify — pedido aprovado
-      await utmify.sendOrder({
-        orderId,
-        amount:        o.amount,
-        paymentMethod: o.paymentMethod || 'mbway',
-        status:        'paid',
-        createdAt:     o.createdAt,
-        paidAt:        o.paidAt,
-        customer:      o.customer || null,
-        utms:          o.utms    || null,
-      });
-    }
+  if (event === 'payment.failed') {
+    await utmify.sendOrder({
+      orderId,
+      amount,
+      paymentMethod,
+      status:    'refused',
+      createdAt,
+      customer:  null,
+      utms:      null,
+    });
+  }
 
-    if (event === 'payment.failed') {
-      o.status = 'failed';
-
-      await utmify.sendOrder({
-        orderId,
-        amount:        o.amount,
-        paymentMethod: o.paymentMethod || 'mbway',
-        status:        'refused',
-        createdAt:     o.createdAt,
-        customer:      o.customer || null,
-        utms:          o.utms    || null,
-      });
-    }
-
-    if (event === 'payment.cancelled') {
-      o.status = 'cancelled';
-    }
+  if (event === 'webhook.test') {
+    console.log('[webhook] Test event received — OK');
   }
 
   res.status(200).json({ received: true });
