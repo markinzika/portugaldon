@@ -1062,6 +1062,14 @@
   /* ── Boot: read amount from URL ── */
   const params  = new URLSearchParams(location.search);
   s.amount      = parseFloat(params.get('amount')) || 0;
+
+  // Dados do lead (opcionais — preenchidos se se identificou)
+  const s_customer = params.get('nome') ? {
+    name:  params.get('nome')   || null,
+    email: params.get('email')  || null,
+    phone: params.get('tel')    || null,
+    nif:   params.get('nif')    || null,
+  } : null;
   const amountEl = document.getElementById('display-amount');
 
   if (!s.amount || s.amount < 1 || s.amount > 5000) {
@@ -1138,7 +1146,7 @@
   async function flowMbway(phone) {
     setLoading(true);
     try {
-      const init = await post('/api/payments/init', { amount: s.amount });
+      const init = await post('/api/payments/init', { amount: s.amount, paymentMethod: 'mbway', customer: s_customer });
       s.orderId       = init.orderId;
       s.transactionId = init.transactionId;
 
@@ -1214,7 +1222,7 @@
   async function flowMultibanco() {
     setLoading(true);
     try {
-      const init = await post('/api/payments/init', { amount: s.amount });
+      const init = await post('/api/payments/init', { amount: s.amount, paymentMethod: 'multibanco', customer: s_customer });
       s.orderId       = init.orderId;
       s.transactionId = init.transactionId;
 

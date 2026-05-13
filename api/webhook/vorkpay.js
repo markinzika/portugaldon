@@ -1,6 +1,7 @@
 'use strict';
 require('dotenv').config();
-const crypto = require('crypto');
+const crypto   = require('crypto');
+const utmify   = require('../../lib/utmify');
 
 const orders = global._orders || (global._orders = new Map());
 
@@ -28,13 +29,43 @@ module.exports = async (req, res) => {
   catch { return res.status(400).json({ error: 'Invalid JSON body' }); }
 
   const { event, data } = payload;
-  const order = [...orders.entries()].find(([, o]) => o.transactionId === data?.id);
+  const entry = [...orders.entries()].find(([, o]) => o.transactionId === data?.id);
 
-  if (order) {
-    const [orderId, o] = order;
-    if (event === 'payment.success')    { o.status = 'paid';      o.paidAt = data?.paidAt || new Date().toISOString(); }
-    if (event === 'payment.failed')     { o.status = 'failed'; }
-    if (event === 'payment.cancelled')  { o.status = 'cancelled'; }
+  if (entry) {
+    const [orderId, o] = entry;
+
+    if (event === 'payment.success') {
+      o.status = 'paid';
+      o.paidAt = data?.paidAt || new Date().toISOString();
+
+      // Notificar Utmify — pedido aprovado
+      utmify.sendOrder({
+        orderId,
+        amount:        o.amount,
+        paymentMethod: o.paymentMethod || 'mbway',
+        status:        'paid',
+        createdAt:     o.createdAt,
+        paidAt:        o.paidAt,
+        customer:      o.customer || null,
+      });
+    }
+
+    if (event === 'payment.failed') {
+      o.status = 'failed';
+
+      utmify.sendOrder({
+        orderId,
+        amount:        o.amount,
+        paymentMethod: o.paymentMethod || 'mbway',
+        status:        'refused',
+        createdAt:     o.createdAt,
+        customer:      o.customer || null,
+      });
+    }
+
+    if (event === 'payment.cancelled') {
+      o.status = 'cancelled';
+    }
   }
 
   res.status(200).json({ received: true });
