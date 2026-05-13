@@ -17,10 +17,10 @@ module.exports = async (req, res) => {
     .update(rawBody)
     .digest('hex');
 
-  let isValid = false;
-  try {
-    isValid = crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected));
-  } catch { isValid = false; }
+  const sigBuf = Buffer.from(signature);
+  const expBuf = Buffer.from(expected);
+  const isValid = sigBuf.length === expBuf.length &&
+    crypto.timingSafeEqual(sigBuf, expBuf);
 
   if (!isValid) return res.status(401).json({ error: 'Invalid signature' });
 
