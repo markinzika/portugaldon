@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
     const payment = await vorkpay.createPayment(orderId, amount);
     const createdAt = new Date().toISOString();
     orders.set(orderId, {
-      status:        'pending',
+      status:        'waiting_payment',
       amount,
       transactionId: payment.transactionId,
       paymentMethod: paymentMethod || 'mbway',
@@ -35,7 +35,7 @@ module.exports = async (req, res) => {
       orderId,
       amount,
       paymentMethod: paymentMethod || 'mbway',
-      status:        'pending',
+      status:        'waiting_payment',
       createdAt,
       customer:      customer || null,
       utms:          utms     || null,
