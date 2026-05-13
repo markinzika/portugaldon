@@ -1962,6 +1962,17 @@
 
       _donateAmount = rawAmount;
       closeModal('donate-modal');
+
+      /* Utmify — InitiateCheckout */
+      if (window.utmify) {
+        window.utmify('track', 'InitiateCheckout', { value: rawAmount, currency: 'EUR' });
+      } else {
+        document.addEventListener('utmify:ready', function handler() {
+          window.utmify('track', 'InitiateCheckout', { value: rawAmount, currency: 'EUR' });
+          document.removeEventListener('utmify:ready', handler);
+        });
+      }
+
       /* reset ao modal de identificação */
       document.getElementById('identity-form').style.display = 'none';
       document.getElementById('identity-err').style.display  = 'none';
