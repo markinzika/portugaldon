@@ -1674,6 +1674,65 @@
     </div>
   </div>
 
+  <!-- ─── MODAL: IDENTIFICAÇÃO ───────────────────────────────────────── -->
+  <div class="modal-backdrop" id="identity-modal" role="dialog" aria-modal="true" aria-labelledby="identity-modal-title">
+    <div class="modal-sheet">
+      <div class="modal-handle" aria-hidden="true"></div>
+      <button class="modal-close" id="close-identity" aria-label="Fechar">✕</button>
+      <h2 class="modal-title" id="identity-modal-title">Como deseja doar?</h2>
+
+      <div style="display:flex; flex-direction:column; gap:.75rem; margin: 1.25rem 0;">
+        <button class="btn btn-primary" style="width:100%; font-size:1rem; padding:1rem; display:flex; align-items:center; justify-content:center; gap:.5rem;" id="choose-identified">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Identificar-me
+        </button>
+        <button class="btn" style="width:100%; font-size:1rem; padding:1rem; background:var(--bg-alt); display:flex; align-items:center; justify-content:center; gap:.5rem;" id="choose-anonymous">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 17.5 22 22"/><path d="M2 12a5 5 0 0 0 5 5 8 8 0 0 1 5 2 8 8 0 0 1 5-2 5 5 0 0 0 5-5V7H2Z"/><path d="M6 12v.5"/><path d="M14 10.5v.5"/><path d="M10 11v.5"/></svg>
+          Doar anonimamente
+        </button>
+      </div>
+
+      <!-- Formulário de identificação (oculto por defeito) -->
+      <div id="identity-form" style="display:none;">
+        <div style="height:1px; background:var(--border); margin-bottom:1.25rem;"></div>
+        <p style="font-size:.82rem; color:var(--muted); margin-bottom:1rem;">Os seus dados são utilizados apenas para emissão de recibo. Nunca partilhamos informação com terceiros.</p>
+
+        <div style="display:flex; flex-direction:column; gap:.75rem;">
+          <div>
+            <label style="font-size:.8rem; font-weight:600; display:block; margin-bottom:.35rem;">Nome completo <span style="color:#e53e3e">*</span></label>
+            <input type="text" id="id-nome" placeholder="Maria Silva" autocomplete="name"
+              style="width:100%; padding:.75rem 1rem; border:1.5px solid var(--border); border-radius:var(--radius); font-size:.95rem; font-family:inherit; box-sizing:border-box; outline:none; transition:border-color .2s;"
+              onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'" />
+          </div>
+          <div>
+            <label style="font-size:.8rem; font-weight:600; display:block; margin-bottom:.35rem;">Telemóvel <span style="color:#e53e3e">*</span></label>
+            <input type="tel" id="id-telemovel" placeholder="912 345 678" inputmode="numeric" maxlength="11" autocomplete="tel-national"
+              style="width:100%; padding:.75rem 1rem; border:1.5px solid var(--border); border-radius:var(--radius); font-size:.95rem; font-family:inherit; box-sizing:border-box; outline:none; transition:border-color .2s;"
+              onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'" />
+          </div>
+          <div>
+            <label style="font-size:.8rem; font-weight:600; display:block; margin-bottom:.35rem;">Email <span style="color:#e53e3e">*</span></label>
+            <input type="email" id="id-email" placeholder="maria@email.com" autocomplete="email"
+              style="width:100%; padding:.75rem 1rem; border:1.5px solid var(--border); border-radius:var(--radius); font-size:.95rem; font-family:inherit; box-sizing:border-box; outline:none; transition:border-color .2s;"
+              onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'" />
+          </div>
+          <div>
+            <label style="font-size:.8rem; font-weight:600; display:block; margin-bottom:.35rem;">NIF <span style="color:var(--muted); font-weight:400;">(opcional)</span></label>
+            <input type="text" id="id-nif" placeholder="123456789" inputmode="numeric" maxlength="9"
+              style="width:100%; padding:.75rem 1rem; border:1.5px solid var(--border); border-radius:var(--radius); font-size:.95rem; font-family:inherit; box-sizing:border-box; outline:none; transition:border-color .2s;"
+              onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'" />
+          </div>
+        </div>
+
+        <p id="identity-err" style="color:#e53e3e; font-size:.82rem; margin-top:.5rem; display:none;">Por favor preencha os campos obrigatórios.</p>
+
+        <button class="btn btn-primary" style="width:100%; font-size:1rem; padding:1rem; margin-top:1.25rem;" id="confirm-identified">
+          Continuar para doação 🐾
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- ─── MODAL: PARTILHAR ──────────────────────────────────────────── -->
   <div class="modal-backdrop" id="share-modal" role="dialog" aria-modal="true" aria-labelledby="share-modal-title">
     <div class="modal-sheet">
@@ -1856,10 +1915,12 @@
       document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
     });
 
+    let _donateAmount = 0;
+
     document.getElementById('proceed-donate').addEventListener('click', () => {
-      const selected   = document.querySelector('.amount-btn.selected');
-      const customVal  = document.getElementById('custom-amount').value;
-      const rawAmount  = customVal
+      const selected  = document.querySelector('.amount-btn.selected');
+      const customVal = document.getElementById('custom-amount').value;
+      const rawAmount = customVal
         ? parseFloat(customVal)
         : parseFloat((selected?.dataset.amount) || '25');
 
@@ -1868,8 +1929,67 @@
         return;
       }
 
+      _donateAmount = rawAmount;
       closeModal('donate-modal');
-      location.href = `/checkout.html?amount=${rawAmount}`;
+      /* reset ao modal de identificação */
+      document.getElementById('identity-form').style.display = 'none';
+      document.getElementById('identity-err').style.display  = 'none';
+      openModal('identity-modal');
+    });
+
+    document.getElementById('close-identity').addEventListener('click', () => closeModal('identity-modal'));
+
+    /* Formatar telemóvel no modal de identificação */
+    document.getElementById('id-telemovel').addEventListener('input', function () {
+      const digits = this.value.replace(/\D/g, '').slice(0, 9);
+      this.value = digits.length > 6
+        ? digits.slice(0,3) + ' ' + digits.slice(3,6) + ' ' + digits.slice(6)
+        : digits.length > 3
+          ? digits.slice(0,3) + ' ' + digits.slice(3)
+          : digits;
+    });
+
+    /* NIF — só dígitos */
+    document.getElementById('id-nif').addEventListener('input', function () {
+      this.value = this.value.replace(/\D/g, '').slice(0, 9);
+    });
+
+    /* Anónimo — vai directo para o checkout */
+    document.getElementById('choose-anonymous').addEventListener('click', () => {
+      closeModal('identity-modal');
+      location.href = `/checkout.html?amount=${_donateAmount}`;
+    });
+
+    /* Identificado — mostra o formulário */
+    document.getElementById('choose-identified').addEventListener('click', () => {
+      document.getElementById('identity-form').style.display = 'block';
+      document.getElementById('choose-identified').style.display = 'none';
+      document.getElementById('choose-anonymous').style.display  = 'none';
+    });
+
+    /* Confirmar identificação e ir para checkout */
+    document.getElementById('confirm-identified').addEventListener('click', () => {
+      const nome     = document.getElementById('id-nome').value.trim();
+      const tel      = document.getElementById('id-telemovel').value.replace(/\s/g, '');
+      const email    = document.getElementById('id-email').value.trim();
+      const nif      = document.getElementById('id-nif').value.trim();
+      const err      = document.getElementById('identity-err');
+
+      if (!nome || !tel || !email) {
+        err.style.display = 'block';
+        return;
+      }
+      err.style.display = 'none';
+
+      const params = new URLSearchParams({
+        amount: _donateAmount,
+        nome,
+        tel,
+        email,
+        ...(nif ? { nif } : {}),
+      });
+      closeModal('identity-modal');
+      location.href = `/checkout.html?${params.toString()}`;
     });
 
     /* ── Botões de partilha ── */
