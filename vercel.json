@@ -4,6 +4,15 @@
     { "src": "server.js", "use": "@vercel/node" }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "server.js" }
+    { "src": "/api/(.*)", "dest": "server.js" },
+    { "src": "/hero.jpg",        "dest": "/hero.jpg" },
+    { "src": "/hero2.jpg",       "dest": "/hero2.jpg" },
+    { "src": "/hero3.jpg",       "dest": "/hero3.jpg" },
+    { "src": "/hero4.jpg",       "dest": "/hero4.jpg" },
+    { "src": "/logo-alaar.jpg",  "dest": "/logo-alaar.jpg" },
+    { "src": "/logo-coracao.png","dest": "/logo-coracao.png" },
+    { "src": "/checkout.html",   "dest": "/checkout.html" },
+    { "src": "/return.html",     "dest": "/return.html" },
+    { "src": "/(.*)",            "dest": "/index.html" }
   ]
 }
