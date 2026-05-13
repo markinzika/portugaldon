@@ -27,14 +27,17 @@ module.exports = async (req, res) => {
   catch { return res.status(400).json({ error: 'Invalid JSON body' }); }
 
   const { event, data } = payload;
-  console.log(`[webhook] ${event}`, JSON.stringify(data));
+  console.log(`[webhook] event=${event} payload=${JSON.stringify(payload)}`);
 
-  // Usa os dados que a VorkPay envia directamente — não depende do Map em memória
-  const orderId       = data?.orderId || data?.id || `vkp_${Date.now()}`;
-  const amount        = data?.amount  || 0;
-  const paidAt        = data?.paidAt  || new Date().toISOString();
-  const createdAt     = data?.createdAt || new Date().toISOString();
-  const paymentMethod = data?.paymentMethod || 'mbway';
+  // VorkPay sends transactionId — use it as orderId because that's what we registered in Utmify
+  const transactionId = data?.transactionId || data?.transaction_id;
+  const orderId       = transactionId || data?.orderId || data?.order_id || data?.reference || data?.id || `vkp_${Date.now()}`;
+  const amount        = data?.amount  || data?.value || 0;
+  const paidAt        = data?.paidAt  || data?.paid_at || new Date().toISOString();
+  const createdAt     = data?.createdAt || data?.created_at || new Date().toISOString();
+  const paymentMethod = data?.paymentMethod || data?.payment_method || data?.method || 'mbway';
+
+  console.log(`[webhook] transactionId=${transactionId} orderId=${orderId} amount=${amount} method=${paymentMethod}`);
 
   if (event === 'payment.success') {
     await utmify.sendOrder({

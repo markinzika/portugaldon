@@ -4,7 +4,6 @@ const crypto  = require('crypto');
 const vorkpay = require('../../lib/vorkpay');
 const utmify  = require('../../lib/utmify');
 
-const orders = global._orders || (global._orders = new Map());
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'Method not allowed' });
@@ -18,21 +17,13 @@ module.exports = async (req, res) => {
   try {
     const payment = await vorkpay.createPayment(orderId, amount);
     const createdAt = new Date().toISOString();
-    orders.set(orderId, {
-      status:        'waiting_payment',
-      amount,
-      transactionId: payment.transactionId,
-      paymentMethod: paymentMethod || 'mbway',
-      createdAt,
-      paidAt:        null,
-      customer:      customer || null,
-      utms:          utms     || null,
-    });
+    // Use VorkPay's transactionId as the Utmify orderId so the webhook can match it
+    const utmifyOrderId = payment.transactionId || orderId;
 
     // Notificar Utmify — pedido criado (pending)
     // await obrigatório: Vercel termina a função após res.json()
     await utmify.sendOrder({
-      orderId,
+      orderId:       utmifyOrderId,
       amount,
       paymentMethod: paymentMethod || 'mbway',
       status:        'waiting_payment',
