@@ -1,18 +1,22 @@
 {
   "version": 2,
   "builds": [
-    { "src": "server.js", "use": "@vercel/node" }
+    { "src": "index.html",      "use": "@vercel/static" },
+    { "src": "checkout.html",   "use": "@vercel/static" },
+    { "src": "return.html",     "use": "@vercel/static" },
+    { "src": "*.jpg",           "use": "@vercel/static" },
+    { "src": "*.png",           "use": "@vercel/static" },
+    { "src": "api/**/*.js",     "use": "@vercel/node"   }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "server.js" },
-    { "src": "/hero.jpg",        "dest": "/hero.jpg" },
-    { "src": "/hero2.jpg",       "dest": "/hero2.jpg" },
-    { "src": "/hero3.jpg",       "dest": "/hero3.jpg" },
-    { "src": "/hero4.jpg",       "dest": "/hero4.jpg" },
-    { "src": "/logo-alaar.jpg",  "dest": "/logo-alaar.jpg" },
-    { "src": "/logo-coracao.png","dest": "/logo-coracao.png" },
-    { "src": "/checkout.html",   "dest": "/checkout.html" },
-    { "src": "/return.html",     "dest": "/return.html" },
-    { "src": "/(.*)",            "dest": "/index.html" }
+    { "src": "/api/payments/init",        "dest": "/api/payments/init.js"       },
+    { "src": "/api/payments/mbway",       "dest": "/api/payments/mbway.js"      },
+    { "src": "/api/payments/multibanco",  "dest": "/api/payments/multibanco.js" },
+    { "src": "/api/payments/status",      "dest": "/api/payments/status.js"     },
+    { "src": "/api/webhook/vorkpay",      "dest": "/api/webhook/vorkpay.js"     },
+    { "src": "/checkout.html",            "dest": "/checkout.html"              },
+    { "src": "/return.html",              "dest": "/return.html"                },
+    { "src": "/(?!api/).*\\.(jpg|png)$",  "dest": "/$0"                        },
+    { "src": "/(.*)",                     "dest": "/index.html"                 }
   ]
 }
