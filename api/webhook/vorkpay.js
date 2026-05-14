@@ -3,10 +3,7 @@ require('dotenv').config();
 const crypto  = require('crypto');
 const utmify  = require('../../lib/utmify');
 
-// Disable Vercel's automatic body parsing so we get the raw bytes for HMAC verification
-module.exports.config = { api: { bodyParser: false } };
-
-function readRawBody(req) {
+function readStream(req) {
   return new Promise((resolve, reject) => {
     const chunks = [];
     req.on('data', chunk => chunks.push(chunk));
@@ -15,34 +12,43 @@ function readRawBody(req) {
   });
 }
 
-module.exports = async (req, res) => {
+const handler = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
+  // Try to get raw bytes from stream; if Vercel already parsed the body the stream is empty
+  const streamBuf = await readStream(req);
+  const rawBody   = streamBuf.length > 0
+    ? streamBuf
+    : Buffer.from(typeof req.body === 'string' ? req.body : JSON.stringify(req.body));
+
+  console.log(`[webhook] stream bytes=${streamBuf.length} rawBody=${rawBody.toString('utf8').slice(0, 400)}`);
+
+  // Signature check
   const signature = req.headers['x-vorkpay-signature'];
-  console.log(`[webhook] received — signature header: ${signature ? 'present' : 'MISSING'}`);
+  if (signature && process.env.VORKPAY_WEBHOOK_SECRET) {
+    const expected = 'sha256=' + crypto
+      .createHmac('sha256', process.env.VORKPAY_WEBHOOK_SECRET)
+      .update(rawBody)
+      .digest('hex');
+    const sigBuf = Buffer.from(signature);
+    const expBuf = Buffer.from(expected);
+    const isValid = sigBuf.length === expBuf.length && crypto.timingSafeEqual(sigBuf, expBuf);
+    console.log(`[webhook] signature valid=${isValid}`);
+    if (!isValid) return res.status(401).json({ error: 'Invalid signature' });
+  } else if (!signature) {
+    console.log('[webhook] no signature header — rejecting');
+    return res.status(401).json({ error: 'Missing signature' });
+  }
 
-  const rawBody = await readRawBody(req);
-  console.log(`[webhook] raw body: ${rawBody.toString('utf8').slice(0, 500)}`);
-
-  if (!signature) return res.status(401).json({ error: 'Missing signature' });
-
-  const expected = 'sha256=' + crypto
-    .createHmac('sha256', process.env.VORKPAY_WEBHOOK_SECRET)
-    .update(rawBody)
-    .digest('hex');
-
-  const sigBuf = Buffer.from(signature);
-  const expBuf = Buffer.from(expected);
-  const isValid = sigBuf.length === expBuf.length &&
-    crypto.timingSafeEqual(sigBuf, expBuf);
-
-  console.log(`[webhook] signature valid: ${isValid} | expected: ${expected}`);
-
-  if (!isValid) return res.status(401).json({ error: 'Invalid signature' });
-
+  // Parse payload
   let payload;
-  try { payload = JSON.parse(rawBody.toString('utf8')); }
-  catch { return res.status(400).json({ error: 'Invalid JSON body' }); }
+  try {
+    payload = streamBuf.length > 0
+      ? JSON.parse(rawBody.toString('utf8'))
+      : (typeof req.body === 'object' ? req.body : JSON.parse(req.body));
+  } catch {
+    return res.status(400).json({ error: 'Invalid JSON' });
+  }
 
   const { event, data } = payload;
   console.log(`[webhook] event=${event} data=${JSON.stringify(data)}`);
@@ -61,10 +67,14 @@ module.exports = async (req, res) => {
   } else if (event === 'payment.failed') {
     await utmify.sendOrder({ orderId, amount, paymentMethod, status: 'refused', createdAt, customer: null, utms: null });
   } else if (event === 'webhook.test') {
-    console.log('[webhook] Test event received — OK');
+    console.log('[webhook] test event OK');
   } else {
-    console.log(`[webhook] Unknown event: ${event} — no action taken`);
+    console.log(`[webhook] unknown event="${event}"`);
   }
 
   res.status(200).json({ received: true });
 };
+
+// Config must be set on the exported function — NOT before the assignment
+handler.config = { api: { bodyParser: false } };
+module.exports = handler;
