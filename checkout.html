@@ -1103,17 +1103,19 @@
   } else {
     amountEl.textContent = '€' + s.amount.toFixed(2).replace('.', ',');
 
-    /* Utmify — InitiateCheckout ao chegar ao checkout */
-    (function fireIC() {
-      if (window.utmify) {
-        window.utmify('track', 'InitiateCheckout', { value: s.amount, currency: 'EUR' });
-      } else {
-        document.addEventListener('utmify:ready', function handler() {
-          window.utmify('track', 'InitiateCheckout', { value: s.amount, currency: 'EUR' });
-          document.removeEventListener('utmify:ready', handler);
-        });
-      }
-    })();
+    /* Utmify — InitiateCheckout: retry até pixel carregar (máx 3s) */
+    (function fireIC(amount) {
+      var attempts = 0;
+      var t = setInterval(function () {
+        attempts++;
+        if (typeof window.utmify === 'function') {
+          window.utmify('track', 'InitiateCheckout', { value: amount });
+          clearInterval(t);
+        } else if (attempts >= 15) {
+          clearInterval(t);
+        }
+      }, 200);
+    })(s.amount);
   }
 
   /* ── DOM refs ── */

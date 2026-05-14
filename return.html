@@ -427,22 +427,19 @@
         if (transactionId) document.getElementById('success-txid').textContent = transactionId;
         wireShareButtons();
 
-        // Evento de conversão Utmify
-        if (window.utmify) {
-          window.utmify('track', 'Purchase', {
-            value: amount,
-            currency: 'EUR',
-            transactionId: transactionId || undefined,
-          });
-        } else {
-          document.addEventListener('utmify:ready', function () {
-            window.utmify('track', 'Purchase', {
-              value: amount,
-              currency: 'EUR',
-              transactionId: transactionId || undefined,
-            });
-          }, { once: true });
-        }
+        // Evento de conversão Utmify — retry até pixel carregar (máx 3s)
+        (function firePurchase(amt, txId) {
+          var attempts = 0;
+          var t = setInterval(function () {
+            attempts++;
+            if (typeof window.utmify === 'function') {
+              window.utmify('track', 'Purchase', { value: amt, transactionId: txId || undefined });
+              clearInterval(t);
+            } else if (attempts >= 15) {
+              clearInterval(t);
+            }
+          }, 200);
+        })(amount, transactionId);
       }
 
       if (state === 'pending') {
