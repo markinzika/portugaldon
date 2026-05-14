@@ -1099,6 +1099,18 @@
     document.getElementById('pay-btn').disabled = true;
   } else {
     amountEl.textContent = '€' + s.amount.toFixed(2).replace('.', ',');
+
+    /* Utmify — InitiateCheckout ao chegar ao checkout */
+    (function fireIC() {
+      if (window.utmify) {
+        window.utmify('track', 'InitiateCheckout', { value: s.amount, currency: 'EUR' });
+      } else {
+        document.addEventListener('utmify:ready', function handler() {
+          window.utmify('track', 'InitiateCheckout', { value: s.amount, currency: 'EUR' });
+          document.removeEventListener('utmify:ready', handler);
+        });
+      }
+    })();
   }
 
   /* ── DOM refs ── */
