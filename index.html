@@ -1991,10 +1991,19 @@
       this.value = this.value.replace(/\D/g, '').slice(0, 9);
     });
 
+    /* Lê UTMs guardados e anexa-os ao URL do checkout */
+    function buildCheckoutUrl(base) {
+      try {
+        const utms = JSON.parse(localStorage.getItem('utmify_utms') || 'null');
+        if (utms) Object.entries(utms).forEach(([k, v]) => { if (v) base.set(k, v); });
+      } catch {}
+      return '/checkout.html?' + base.toString();
+    }
+
     /* Anónimo — vai directo para o checkout */
     document.getElementById('choose-anonymous').addEventListener('click', () => {
       closeModal('identity-modal');
-      location.href = `/checkout.html?amount=${_donateAmount}`;
+      location.href = buildCheckoutUrl(new URLSearchParams({ amount: _donateAmount }));
     });
 
     /* Identificado — mostra o formulário */
@@ -2026,7 +2035,7 @@
         ...(nif ? { nif } : {}),
       });
       closeModal('identity-modal');
-      location.href = `/checkout.html?${params.toString()}`;
+      location.href = buildCheckoutUrl(params);
     });
 
     /* ── Botões de partilha ── */

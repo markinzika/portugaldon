@@ -1085,11 +1085,14 @@
     nif:   params.get('nif')    || null,
   } : null;
 
-  // Ler UTMs guardadas no localStorage
+  // Ler UTMs do URL (passados pelo index.html) com fallback para localStorage
   const s_utms = (function () {
-    try {
-      return JSON.parse(localStorage.getItem('utmify_utms') || 'null');
-    } catch { return null; }
+    const utmKeys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','src','sck'];
+    let found = false;
+    const fromUrl = {};
+    utmKeys.forEach(k => { const v = params.get(k); if (v) { found = true; } fromUrl[k] = v || null; });
+    if (found) return fromUrl;
+    try { return JSON.parse(localStorage.getItem('utmify_utms') || 'null'); } catch { return null; }
   })();
   const amountEl = document.getElementById('display-amount');
 

@@ -9,6 +9,7 @@ module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'Method not allowed' });
 
   const { amount, paymentMethod, customer, utms } = req.body;
+  console.log(`[init] amount=${amount} method=${paymentMethod} utms=${JSON.stringify(utms)}`);
   if (!amount || typeof amount !== 'number' || amount < 1 || amount > 5000) {
     return res.status(400).json({ ok: false, error: 'amount must be a number between 1 and 5000' });
   }
