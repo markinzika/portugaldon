@@ -1,7 +1,7 @@
 'use strict';
 
 const UTMIFY_API_URL = 'https://api.utmify.com.br/api-credentials/orders';
-const UTMIFY_TOKEN   = 'wQwauqxM3lz5yLfUUn9rQaZQLDuzxmMvWxB1';
+const UTMIFY_TOKEN   = process.env.UTMIFY_TOKEN; // configurar no Vercel → Environment Variables
 
 module.exports = async (req, res) => {
   if (req.method !== 'GET') return res.status(405).json({ error: 'GET only' });
