@@ -493,6 +493,17 @@
     </div>
   </footer>
 
+  <!-- OVERLAY DE CARREGAMENTO -->
+  <div id="pix-loading" style="display:none; position:fixed; inset:0; z-index:999; background:rgba(0,0,0,.55); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); flex-direction:column; align-items:center; justify-content:center; gap:1.25rem;">
+    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" style="animation:spin 1s linear infinite;">
+      <circle cx="26" cy="26" r="22" stroke="rgba(255,255,255,.2)" stroke-width="5"/>
+      <path d="M26 4a22 22 0 0 1 22 22" stroke="#009184" stroke-width="5" stroke-linecap="round"/>
+    </svg>
+    <p style="color:#fff; font-family:'Inter',system-ui,sans-serif; font-size:1rem; font-weight:600; text-align:center; margin:0;">Gerando seu PIX…</p>
+    <p style="color:rgba(255,255,255,.65); font-family:'Inter',system-ui,sans-serif; font-size:.85rem; text-align:center; margin:0;">Aguarde um instante</p>
+  </div>
+  <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
+
   <!-- STICKY CTA -->
   <div class="sticky-cta" id="sticky-cta" aria-hidden="true">
     <div class="sticky-cta-inner">
@@ -681,6 +692,8 @@
         const utms = JSON.parse(localStorage.getItem('utmify_utms') || 'null');
         if (utms) Object.entries(utms).forEach(([k, v]) => { if (v) params.set(k, v); });
       } catch {}
+      const overlay = document.getElementById('pix-loading');
+      overlay.style.display = 'flex';
       location.href = 'https://pay.ajudamaoamiga.org/api/init?' + params.toString();
     });
 
