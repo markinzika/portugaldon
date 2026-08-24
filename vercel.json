@@ -5,6 +5,7 @@
     { "src": "checkout.html",            "use": "@vercel/static" },
     { "src": "return.html",              "use": "@vercel/static" },
     { "src": "campanhas/**/*.html",      "use": "@vercel/static" },
+    { "src": "campaigns.json",           "use": "@vercel/static" },
     { "src": "*.jpg",                    "use": "@vercel/static" },
     { "src": "*.png",                    "use": "@vercel/static" },
     { "src": "api/**/*.js",              "use": "@vercel/node"   }

@@ -207,6 +207,16 @@
     #identity-form input:focus { border-color: var(--accent); }
     #identity-form label { font-size: .8rem; font-weight: 600; display: block; margin-bottom: .35rem; }
 
+    /* HERO DOTS & ARROWS */
+    .hero-dots { position: absolute; bottom: 5.5rem; left: 50%; transform: translateX(-50%); display: flex; gap: .45rem; z-index: 2; pointer-events: none; }
+    .hero-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,.45); transition: background .3s, transform .3s; }
+    .hero-dot.active { background: #fff; transform: scale(1.3); }
+    .hero-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 3; width: 40px; height: 40px; border-radius: 50%; background: rgba(0,0,0,.35); backdrop-filter: blur(4px); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .2s; -webkit-tap-highlight-color: transparent; }
+    .hero-arrow:hover { background: rgba(0,0,0,.55); }
+    .hero-arrow svg { width: 20px; height: 20px; color: #fff; }
+    .hero-arrow-prev { left: .75rem; }
+    .hero-arrow-next { right: .75rem; }
+
     @media (min-width: 481px) { .hero-visual { max-height: 560px; } }
   </style>
 </head>
@@ -233,11 +243,20 @@
     <!-- HERO -->
     <section class="hero" aria-label="Campanha: Ajude Dona Dacy a Recomeçar">
       <div class="hero-visual">
-        <!-- Placeholder até as fotos chegarem -->
-        <div class="hero-placeholder">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
-          <p>Fotos em breve</p>
+        <img class="hero-slide active" src="/dona-dacy-1.jpg" alt="Dona Dacy — Ajude a recomeçar" loading="eager" fetchpriority="high" />
+        <img class="hero-slide"        src="/dona-dacy-2.jpg" alt="Ela foi enganada e perdeu tudo" loading="lazy" />
+
+        <div class="hero-dots" aria-hidden="true">
+          <span class="hero-dot active"></span>
+          <span class="hero-dot"></span>
         </div>
+
+        <button class="hero-arrow hero-arrow-prev" aria-label="Imagem anterior">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <button class="hero-arrow hero-arrow-next" aria-label="Próxima imagem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
 
         <div class="hero-gradient-bottom" aria-hidden="true"></div>
 
@@ -745,6 +764,26 @@
     document.querySelector('[aria-label="Compartilhar no X"]').addEventListener('click', () => {
       window.open(`https://twitter.com/intent/tweet?text=${campaignText}&url=${campaignURL}`, '_blank', 'width=600,height=400');
     });
+
+    /* Carrossel hero */
+    (function () {
+      const slides  = document.querySelectorAll('.hero-slide');
+      const dots    = document.querySelectorAll('.hero-dot');
+      const btnPrev = document.querySelector('.hero-arrow-prev');
+      const btnNext = document.querySelector('.hero-arrow-next');
+      let current = 0, timer;
+      function goTo(idx) {
+        slides[current].classList.remove('active'); dots[current].classList.remove('active');
+        current = (idx + slides.length) % slides.length;
+        slides[current].classList.add('active'); dots[current].classList.add('active');
+      }
+      function start() { timer = setInterval(() => goTo(current + 1), 10000); }
+      function restart() { clearInterval(timer); start(); }
+      btnNext.addEventListener('click', () => { goTo(current + 1); restart(); });
+      btnPrev.addEventListener('click', () => { goTo(current - 1); restart(); });
+      document.addEventListener('visibilitychange', () => document.hidden ? clearInterval(timer) : start());
+      start();
+    })();
 
     /* Utmify InitiateCheckout */
     (function tryIC() {
