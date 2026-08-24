@@ -281,26 +281,25 @@
     <section class="progress-section reveal" id="progress">
       <div class="progress-card">
         <div class="progress-top">
-          <svg class="progress-ring" width="72" height="72" viewBox="0 0 72 72" aria-label="Sem meta fixa — qualquer valor ajuda">
+          <svg class="progress-ring" width="72" height="72" viewBox="0 0 72 72" aria-label="14,3% arrecadado">
             <circle class="track" cx="36" cy="36" r="28"/>
             <circle class="fill" cx="36" cy="36" r="28" id="ring-fill"/>
-            <text x="36" y="38" text-anchor="middle" font-size="9" font-weight="800" font-family="Inter,system-ui,sans-serif" fill="#006E65">qualquer</text>
-            <text x="36" y="48" text-anchor="middle" font-size="9" font-weight="800" font-family="Inter,system-ui,sans-serif" fill="#006E65">valor</text>
+            <text x="36" y="40" text-anchor="middle" font-size="12" font-weight="800" font-family="Inter,system-ui,sans-serif" fill="#006E65">14,3%</text>
           </svg>
 
           <div class="progress-info">
             <p class="progress-amount">
-              Campanha aberta
-              <span class="progress-goal" style="display:block;margin-top:.2rem;">Sem meta fixa — doe o que puder</span>
+              R$ 2.854 arrecadados
+              <span class="progress-goal">de R$ 20.000</span>
             </p>
           </div>
         </div>
 
-        <div class="progress-bar-wrap" style="margin-top:1rem;" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar-wrap" style="margin-top:1rem;" role="progressbar" aria-valuenow="14" aria-valuemin="0" aria-valuemax="100">
           <div class="progress-bar-fill" id="progress-bar"></div>
         </div>
         <div class="progress-meta">
-          <span>Manaus, AM</span>
+          <span>14% da meta · Manaus, AM</span>
           <span>via PIX</span>
         </div>
 
@@ -499,9 +498,9 @@
     <div class="sticky-cta-inner">
       <div class="sticky-progress-row">
         <div>
-          <p class="sticky-amount">Ajude Dona Dacy <span class="sticky-goal">— qualquer valor</span></p>
+          <p class="sticky-amount">R$ 2.854 <span class="sticky-goal">de R$ 20.000</span></p>
           <div class="progress-bar-wrap" style="margin-top:.4rem;">
-            <div class="progress-bar-fill" style="width:0%;"></div>
+            <div class="progress-bar-fill" style="width:14.27%;"></div>
           </div>
         </div>
       </div>
@@ -622,6 +621,21 @@
         localStorage.setItem('utmify_utms', JSON.stringify(stored));
       }
     })();
+
+    /* Animar barra e anel quando entrar em vista */
+    const bar  = document.getElementById('progress-bar');
+    const ring = document.getElementById('ring-fill');
+    const progressObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          bar.style.width = '14.27%';
+          // circunferência=175.93, offset = 175.93*(1-0.1427) ≈ 150.8
+          ring.style.strokeDashoffset = '150.8';
+          progressObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    progressObs.observe(document.getElementById('progress'));
 
     /* Scroll reveal */
     const revealEls = document.querySelectorAll('.reveal');
