@@ -16,8 +16,9 @@
     { "src": "/api/payments/status",      "dest": "/api/payments/status.js"     },
     { "src": "/api/webhook/vorkpay",      "dest": "/api/webhook/vorkpay.js"     },
     { "src": "/checkout.html",            "dest": "/checkout.html"              },
-    { "src": "/return.html",              "dest": "/return.html"                },
-    { "src": "/(?!api/).*\\.(jpg|png)$",  "dest": "/$0"                        },
-    { "src": "/(.*)",                     "dest": "/index.html"                 }
+    { "src": "/return.html",             "dest": "/return.html"                },
+    { "src": "/campanhas/([^/]+)/?",     "dest": "/campanhas/$1/index.html"    },
+    { "src": "/(?!api/).*\\.(jpg|png)$", "dest": "/$0"                        },
+    { "src": "/(.*)",                    "dest": "/index.html"                 }
   ]
 }
