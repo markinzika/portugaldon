@@ -1,0 +1,49 @@
+{
+  "familia-silva": {
+    "slug": "familia-silva",
+    "titulo": "Família Silva precisa da sua ajuda",
+    "descricao": "A família Silva está enfrentando um momento extremamente difícil. Ajude-nos a transformar essa realidade.",
+    "organizador": "Instituto Mão Amiga",
+    "cidade": "São Paulo, SP",
+    "meta": 15000,
+    "arrecadado": 3200,
+    "doadores": 42,
+    "heroImages": ["/hero.jpg", "/hero2.jpg"],
+    "historia": "<h2>A realidade da Família Silva</h2><p>A família Silva é composta por 5 pessoas e está sem renda há 3 meses. Precisam de ajuda urgente para alimentação, aluguel e acesso a medicamentos.</p><p>Qualquer contribuição faz a diferença. Junte-se a nós!</p>",
+    "necessidades": [
+      { "titulo": "Cesta básica — 3 meses", "valor": 1800, "status": "urgente" },
+      { "titulo": "Aluguel em atraso", "valor": 3600, "status": "urgente" },
+      { "titulo": "Medicamentos", "valor": 850, "status": "pendente" },
+      { "titulo": "Material escolar das crianças", "valor": 450, "status": "pendente" }
+    ],
+    "doacoesRecentes": [
+      { "nome": "Anônimo", "valor": 50 },
+      { "nome": "Carlos Souza", "valor": 100 },
+      { "nome": "Anônimo", "valor": 25 }
+    ],
+    "createdAt": "2026-08-01"
+  },
+  "escola-norte": {
+    "slug": "escola-norte",
+    "titulo": "Escola Comunitária do Norte — apoio urgente",
+    "descricao": "A escola comunitária atende 200 crianças e está sem recursos para continuar funcionando.",
+    "organizador": "Instituto Mão Amiga",
+    "cidade": "Manaus, AM",
+    "meta": 25000,
+    "arrecadado": 8500,
+    "doadores": 113,
+    "heroImages": ["/hero3.jpg", "/hero4.jpg"],
+    "historia": "<h2>A Escola Comunitária do Norte</h2><p>Há 10 anos atendemos crianças em situação de vulnerabilidade. Hoje precisamos de apoio para continuar nossa missão.</p><p>Com R$ 25 mil conseguimos garantir mais um ano de funcionamento para 200 crianças.</p>",
+    "necessidades": [
+      { "titulo": "Material didático — 1.º semestre", "valor": 5000, "status": "urgente" },
+      { "titulo": "Reforma do telhado", "valor": 12000, "status": "urgente" },
+      { "titulo": "Merenda escolar — 6 meses", "valor": 8000, "status": "pendente" }
+    ],
+    "doacoesRecentes": [
+      { "nome": "Ana Lima", "valor": 200 },
+      { "nome": "Anônimo", "valor": 50 },
+      { "nome": "José Oliveira", "valor": 500 }
+    ],
+    "createdAt": "2026-07-15"
+  }
+}
