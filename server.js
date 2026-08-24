@@ -222,5 +222,5 @@ function findOrderByTransaction(transactionId) {
 
 // ─── Start server ─────────────────────────────────────────────────────────────
 app.listen(PORT, () => {
-  console.log(`Alaar server running at http://localhost:${PORT}`);
+  console.log(`Mão Amiga server running at http://localhost:${PORT}`);
 });

