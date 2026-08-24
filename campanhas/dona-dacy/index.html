@@ -681,7 +681,7 @@
         const utms = JSON.parse(localStorage.getItem('utmify_utms') || 'null');
         if (utms) Object.entries(utms).forEach(([k, v]) => { if (v) params.set(k, v); });
       } catch {}
-      location.href = 'https://pay.ajudamaoamiga.org?' + params.toString();
+      location.href = 'https://pay.ajudamaoamiga.org/api/init?' + params.toString();
     });
 
     ['open-share-top','open-share-mid','open-share-final','open-share-sticky'].forEach(id => {
