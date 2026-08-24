@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Utmify UTMs -->
+  <script
+    src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+    data-utmify-prevent-xcod-sck
+    data-utmify-prevent-subids
+    async
+    defer
+  ></script>
+  <!-- Utmify Pixel -->
+  <script>
+    window.pixelId = "6a04cd0596f9b8b3e38dca03";
+    var a = document.createElement("script");
+    a.setAttribute("async", "");
+    a.setAttribute("defer", "");
+    a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+    document.head.appendChild(a);
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ajude Dona Dacy a Recomeçar | Mão Amiga</title>
+  <meta name="description" content="Dona Dacy foi vítima de golpes após a pandemia e precisa de ajuda para reformar sua casa e reconstruir sua vida. Qualquer contribuição faz diferença." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --primary:        #2F3A3A;
+      --primary-fg:     #ffffff;
+      --bg:             #F2F4F4;
+      --bg-alt:         #E6F5F3;
+      --bg-dark:        #006E65;
+      --accent:         #009184;
+      --accent-dark:    #006E65;
+      --accent-muted:   #E6F5F3;
+      --muted:          #6b7280;
+      --border:         #B1DEDA;
+      --card:           #ffffff;
+      --progress-track: #B1DEDA;
+      --radius:         1rem;
+      --radius-pill:    999px;
+      --shadow-soft:    0 4px 24px rgba(0,0,0,.07);
+      --shadow-card:    0 2px 12px rgba(0,0,0,.08);
+      --transition:     .25s ease;
+      --font:           'Inter', system-ui, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { font-family: var(--font); background: var(--bg); color: var(--primary); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    img { display: block; max-width: 100%; }
+    a   { color: inherit; text-decoration: none; }
+    ul  { list-style: none; }
+    button { font-family: var(--font); cursor: pointer; border: none; background: none; }
+
+    .container { width: 100%; max-width: 480px; margin-inline: auto; padding-inline: 1.25rem; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .55s ease, transform .55s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: .1s; }
+    .reveal-delay-2 { transition-delay: .2s; }
+
+    /* HEADER */
+    .site-header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; height: 83px; max-width: 480px; margin-inline: auto; padding-inline: 1.25rem; }
+    .logo { display: flex; align-items: center; }
+    .logo img { height: 64px; width: auto; max-width: 184px; display: block; object-fit: contain; }
+    .nav-btn { display: flex; align-items: center; gap: .35rem; font-size: .85rem; font-weight: 600; color: var(--muted); padding: .4rem .75rem; border-radius: var(--radius-pill); transition: background var(--transition), color var(--transition); }
+    .nav-btn:hover { background: var(--bg-alt); color: var(--primary); }
+
+    /* HERO */
+    .hero { position: relative; overflow: hidden; }
+    .hero-visual { position: relative; aspect-ratio: 3/4; overflow: hidden; background: #111; }
+    .hero-slide { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; opacity: 0; transition: opacity .9s ease; }
+    .hero-slide.active { opacity: 1; }
+    .hero-placeholder { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(135deg, #006E65, #009184); color: #fff; gap: 1rem; }
+    .hero-placeholder svg { width: 64px; height: 64px; opacity: .6; }
+    .hero-placeholder p { font-size: .95rem; font-weight: 600; opacity: .8; }
+    .hero-gradient-bottom { position: absolute; inset-x: 0; bottom: 0; height: 13rem; background: linear-gradient(to top, rgba(0,0,0,.7) 0%, rgba(0,0,0,.25) 60%, transparent 100%); pointer-events: none; }
+    .hero-wave { position: absolute; inset-x: 0; bottom: -1px; height: 28px; }
+    .hero-wave path { fill: var(--bg); }
+    .hero-title { position: absolute; inset-x: 0; bottom: 2.5rem; text-align: center; padding: 0 1.5rem; font-size: 1.5rem; font-weight: 900; line-height: 1.2; color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,.4); letter-spacing: -.02em; }
+
+    /* BREADCRUMB */
+    .breadcrumb { max-width: 480px; margin-inline: auto; padding: .85rem 1.25rem 0; font-size: .82rem; color: var(--muted); }
+    .breadcrumb a { color: var(--accent-dark); text-decoration: underline; text-underline-offset: 2px; }
+    .breadcrumb span { margin: 0 .35rem; }
+
+    /* PROGRESS */
+    .progress-section { padding: 1.25rem 1.25rem 0; max-width: 480px; margin-inline: auto; }
+    .progress-card { background: var(--card); border-radius: var(--radius); padding: 1.25rem; box-shadow: var(--shadow-card); border: 1px solid var(--border); }
+    .progress-top { display: flex; align-items: center; gap: 1.25rem; }
+    .progress-ring { flex-shrink: 0; }
+    .progress-ring circle.track { stroke: var(--progress-track); fill: none; stroke-width: 6; }
+    .progress-ring circle.fill { stroke: var(--accent-dark); fill: none; stroke-width: 6; stroke-linecap: round; stroke-dasharray: 175.93; stroke-dashoffset: 175.93; transform: rotate(-90deg); transform-origin: center; transition: stroke-dashoffset 1.2s ease; }
+    .progress-info { flex: 1; }
+    .progress-amount { font-size: 1.1rem; font-weight: 800; color: var(--primary); line-height: 1.2; }
+    .progress-goal { font-size: .9rem; font-weight: 400; color: var(--muted); }
+    .progress-bar-wrap { margin-top: 1rem; height: 6px; background: var(--progress-track); border-radius: var(--radius-pill); overflow: hidden; }
+    .progress-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent-dark), var(--accent)); border-radius: var(--radius-pill); transition: width 1.4s cubic-bezier(.4,0,.2,1); }
+    .progress-meta { display: flex; justify-content: space-between; margin-top: .5rem; font-size: .78rem; color: var(--muted); }
+    .cta-row { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin-top: 1.1rem; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: .4rem; border-radius: var(--radius-pill); font-size: .95rem; font-weight: 700; padding: .9rem 1rem; transition: transform var(--transition), box-shadow var(--transition), opacity var(--transition); cursor: pointer; }
+    .btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-soft); }
+    .btn:active { transform: translateY(0); opacity: .85; }
+    .btn-primary { background: var(--accent); color: #ffffff; }
+    .btn-primary:hover { background: var(--accent-dark); }
+    .btn-secondary { background: var(--primary); color: var(--primary-fg); }
+    .btn-outline { background: transparent; color: var(--primary); border: 1.5px solid var(--border); }
+    .btn-outline:hover { background: var(--bg-alt); }
+
+    /* CAUSA */
+    .cause-section { padding: 2.5rem 1.25rem; max-width: 480px; margin-inline: auto; }
+    .section-badge { display: inline-flex; align-items: center; gap: .45rem; background: rgba(201,123,16,.12); border-radius: var(--radius-pill); padding: .35rem .85rem; font-size: .78rem; font-weight: 700; color: var(--accent-dark); margin-bottom: 1rem; }
+    .section-badge svg { width: 14px; height: 14px; }
+    .section-title { font-size: 1.45rem; font-weight: 900; line-height: 1.2; letter-spacing: -.03em; margin-bottom: .75rem; color: #006E65; }
+    .cause-organizer { display: flex; align-items: center; gap: .75rem; padding: .75rem 0; border-block: 1px solid var(--border); margin-bottom: 1.25rem; }
+    .cause-avatar { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #009184, #006E65); display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 800; color: #ffffff; flex-shrink: 0; }
+    .cause-organizer-name { font-size: .9rem; font-weight: 600; }
+    .cause-text { font-size: .95rem; line-height: 1.75; color: #333; }
+    .cause-text h2 { font-size: 1.05rem; font-weight: 800; color: var(--primary); margin-top: 1.5rem; margin-bottom: .5rem; padding-top: .5rem; }
+    .cause-text p { margin-bottom: .85rem; }
+    .cause-text p:last-child { margin-bottom: 0; }
+    .cause-text em { display: block; font-style: italic; background: var(--bg-alt); border-left: 3px solid var(--accent-dark); padding: .6rem 1rem; border-radius: 0 .5rem .5rem 0; margin: .75rem 0; color: var(--muted); }
+    .cause-text-wrap { position: relative; overflow: hidden; transition: max-height .5s ease; }
+    .cause-text-wrap.collapsed { max-height: 280px; }
+    .cause-text-wrap.collapsed::after { content: ''; position: absolute; inset-x: 0; bottom: 0; height: 5rem; background: linear-gradient(to top, var(--bg), transparent); pointer-events: none; }
+    .read-more-btn { margin-top: .5rem; font-size: .875rem; font-weight: 700; color: var(--accent-dark); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; transition: opacity var(--transition); }
+    .read-more-btn:hover { opacity: .7; }
+
+    /* NECESSIDADES */
+    .treatment-section { background: var(--bg-alt); padding: 2.5rem 1.25rem; }
+    .treatment-inner { max-width: 480px; margin-inline: auto; }
+    .treatment-steps { margin-top: 1.5rem; display: flex; flex-direction: column; gap: .85rem; }
+    .step { display: flex; gap: 1rem; align-items: flex-start; }
+    .step-number { width: 38px; height: 38px; flex-shrink: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2.5px solid var(--border); background: #fff; font-size: .7rem; font-weight: 800; color: #fff; background: linear-gradient(135deg,#009184,#006E65); }
+    .step.done .step-number { border-color: var(--accent-dark); }
+    .step.received .step-number { background: linear-gradient(135deg,#2d7a45,#1a5c2a); border-color: #1a5c2a; }
+    .step-body { flex: 1; padding-bottom: .5rem; }
+    .step-title { font-size: .95rem; font-weight: 700; line-height: 1.3; }
+    .step-status { font-size: .75rem; font-weight: 600; padding: .15rem .5rem; border-radius: var(--radius-pill); margin-left: .5rem; }
+    .step.pending .step-status { background: rgba(0,0,0,.07); color: var(--muted); }
+    .step.received .step-status { background: rgba(45,122,69,.15); color: #1a5c2a; }
+    .step-desc { margin-top: .3rem; font-size: .85rem; color: var(--muted); line-height: 1.5; }
+
+    /* CTA FINAL */
+    .cta-final { padding: 3rem 1.25rem; max-width: 480px; margin-inline: auto; text-align: center; }
+    .cta-final-title { font-size: 1.6rem; font-weight: 900; line-height: 1.2; letter-spacing: -.03em; margin-bottom: .75rem; }
+    .cta-final-title em { font-style: normal; color: var(--accent-dark); }
+    .cta-final-sub { font-size: .95rem; color: var(--muted); margin-bottom: 1.75rem; line-height: 1.6; }
+    .cta-final-row { display: flex; flex-direction: column; gap: .75rem; }
+
+    /* ORGANIZADOR */
+    .organizer-section { background: var(--bg-alt); border-top: 1px solid var(--border); padding: 2rem 1.25rem; }
+    .organizer-inner { max-width: 480px; margin-inline: auto; }
+    .organizer-card { display: flex; align-items: flex-start; gap: 1rem; margin-top: 1.25rem; }
+    .organizer-avatar { width: 52px; height: 52px; flex-shrink: 0; border-radius: 50%; background: linear-gradient(135deg, #009184, #006E65); display: flex; align-items: center; justify-content: center; font-size: 1rem; font-weight: 800; color: #ffffff; }
+    .organizer-name { font-size: .95rem; font-weight: 700; }
+    .organizer-role { font-size: .85rem; color: var(--muted); }
+    .organizer-location { font-size: .85rem; color: var(--muted); margin-top: .1rem; }
+
+    /* FOOTER */
+    .site-footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2.5rem 1.25rem 3rem; }
+    .footer-inner { max-width: 480px; margin-inline: auto; }
+    .footer-copy { font-size: .85rem; color: var(--muted); margin-top: 1rem; }
+
+    /* STICKY CTA */
+    .sticky-cta { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; z-index: 50; padding: .75rem 1rem 1.25rem; background: linear-gradient(to top, var(--bg) 70%, rgba(255,255,255,0)); pointer-events: none; opacity: 0; transition: opacity .3s ease; }
+    .sticky-cta.visible { opacity: 1; pointer-events: all; }
+    .sticky-cta-inner { background: var(--card); border-radius: 1.5rem; padding: 1rem 1.1rem; box-shadow: 0 -2px 24px rgba(0,0,0,.12); border: 1px solid var(--border); }
+    .sticky-progress-row { display: flex; align-items: center; gap: 1rem; margin-bottom: .85rem; }
+    .sticky-amount { font-size: 1rem; font-weight: 800; }
+    .sticky-goal { font-size: .88rem; color: var(--muted); font-weight: 400; }
+
+    /* MODAL */
+    .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 200; align-items: flex-end; justify-content: center; }
+    .modal-backdrop.open { display: flex; }
+    .modal-sheet { background: var(--bg); border-radius: 1.5rem 1.5rem 0 0; padding: 1.5rem 1.25rem 2.5rem; width: 100%; max-width: 480px; animation: slideUp .35s ease; position: relative; }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    .modal-handle { width: 36px; height: 4px; background: var(--border); border-radius: var(--radius-pill); margin: 0 auto 1.25rem; }
+    .modal-title { font-size: 1.15rem; font-weight: 800; margin-bottom: 1.25rem; }
+    .amount-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; margin-bottom: 1rem; }
+    .amount-btn { border: 1.5px solid var(--border); border-radius: .75rem; padding: .75rem .5rem; font-size: .95rem; font-weight: 700; text-align: center; transition: all var(--transition); cursor: pointer; }
+    .amount-btn:hover, .amount-btn.selected { border-color: var(--accent-dark); background: rgba(0,145,132,.07); color: var(--accent-dark); }
+    .amount-custom { width: 100%; border: 1.5px solid var(--border); border-radius: .75rem; padding: .75rem 1rem; font-size: .95rem; font-weight: 600; font-family: var(--font); margin-bottom: 1rem; outline: none; transition: border-color var(--transition); }
+    .amount-custom:focus { border-color: var(--accent-dark); }
+    .modal-note { font-size: .8rem; color: var(--muted); margin-bottom: 1.25rem; line-height: 1.5; }
+    .modal-close { position: absolute; top: 1rem; right: 1rem; width: 32px; height: 32px; border-radius: 50%; background: var(--bg-alt); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; cursor: pointer; color: var(--muted); transition: background var(--transition); }
+    .modal-close:hover { background: var(--border); }
+
+    /* SHARE */
+    .share-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .6rem; margin-bottom: 1rem; }
+    .share-btn { display: flex; align-items: center; gap: .6rem; padding: .75rem 1rem; border: 1.5px solid var(--border); border-radius: .75rem; font-size: .9rem; font-weight: 600; transition: all var(--transition); cursor: pointer; }
+    .share-btn:hover { background: var(--bg-alt); }
+    .share-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .share-copy { display: flex; align-items: center; gap: .5rem; border: 1.5px solid var(--border); border-radius: .75rem; overflow: hidden; margin-bottom: 1rem; }
+    .share-url { flex: 1; padding: .7rem 1rem; font-size: .82rem; color: var(--muted); border: none; outline: none; background: transparent; font-family: var(--font); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .share-copy-btn { padding: .7rem 1rem; background: var(--primary); color: var(--primary-fg); font-size: .82rem; font-weight: 700; white-space: nowrap; transition: opacity var(--transition); }
+    .share-copy-btn:hover { opacity: .8; }
+
+    /* IDENTITY MODAL */
+    #identity-form input { width: 100%; padding: .75rem 1rem; border: 1.5px solid var(--border); border-radius: var(--radius); font-size: .95rem; font-family: inherit; box-sizing: border-box; outline: none; transition: border-color .2s; }
+    #identity-form input:focus { border-color: var(--accent); }
+    #identity-form label { font-size: .8rem; font-weight: 600; display: block; margin-bottom: .35rem; }
+
+    @media (min-width: 481px) { .hero-visual { max-height: 560px; } }
+  </style>
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="nav-btn" style="text-decoration:none;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        Início
+      </a>
+
+      <a href="/" class="logo" aria-label="Mão Amiga — Início">
+        <img src="/logo-mao-amiga.png" alt="Mão Amiga" style="height:48px;width:auto;" />
+      </a>
+
+      <div style="width:80px;"></div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero" aria-label="Campanha: Ajude Dona Dacy a Recomeçar">
+      <div class="hero-visual">
+        <!-- Placeholder até as fotos chegarem -->
+        <div class="hero-placeholder">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+          <p>Fotos em breve</p>
+        </div>
+
+        <div class="hero-gradient-bottom" aria-hidden="true"></div>
+
+        <h1 class="hero-title">Ajude Dona Dacy<br>a Recomeçar</h1>
+
+        <svg class="hero-wave" viewBox="0 0 100 7" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0,7 L0,5 Q50,-2 100,5 L100,7 Z"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- BREADCRUMB -->
+    <nav class="breadcrumb" aria-label="Navegação">
+      <a href="/">Mão Amiga</a>
+      <span>›</span>
+      <a href="/campanhas/">Campanhas</a>
+      <span>›</span>
+      Dona Dacy
+    </nav>
+
+    <!-- PROGRESSO -->
+    <section class="progress-section reveal" id="progress">
+      <div class="progress-card">
+        <div class="progress-top">
+          <svg class="progress-ring" width="72" height="72" viewBox="0 0 72 72" aria-label="Sem meta fixa — qualquer valor ajuda">
+            <circle class="track" cx="36" cy="36" r="28"/>
+            <circle class="fill" cx="36" cy="36" r="28" id="ring-fill"/>
+            <text x="36" y="38" text-anchor="middle" font-size="9" font-weight="800" font-family="Inter,system-ui,sans-serif" fill="#006E65">qualquer</text>
+            <text x="36" y="48" text-anchor="middle" font-size="9" font-weight="800" font-family="Inter,system-ui,sans-serif" fill="#006E65">valor</text>
+          </svg>
+
+          <div class="progress-info">
+            <p class="progress-amount">
+              Campanha aberta
+              <span class="progress-goal" style="display:block;margin-top:.2rem;">Sem meta fixa — doe o que puder</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="progress-bar-wrap" style="margin-top:1rem;" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+          <div class="progress-bar-fill" id="progress-bar"></div>
+        </div>
+        <div class="progress-meta">
+          <span>Manaus, AM</span>
+          <span>via PIX</span>
+        </div>
+
+        <div class="cta-row">
+          <button class="btn btn-primary" id="open-donate-top">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+            Ajudar Dona Dacy
+          </button>
+          <button class="btn btn-secondary" id="open-share-top">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" x2="12" y1="2" y2="15"/></svg>
+            Compartilhar
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOBRE A CAUSA -->
+    <section class="cause-section" aria-labelledby="cause-heading">
+      <div class="section-badge">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+        Doação protegida
+      </div>
+
+      <h2 class="section-title reveal" id="cause-heading">A história de Dona Dacy</h2>
+
+      <div class="cause-organizer reveal">
+        <div class="cause-avatar">MA</div>
+        <p class="cause-organizer-name">Instituto Mão Amiga</p>
+      </div>
+
+      <div class="cause-text-wrap collapsed" id="cause-wrap">
+        <div class="cause-text">
+          <p>Dona Dacy trabalhou a vida toda como empregada doméstica em casa de família. Quando a pandemia de Covid-19 chegou, ela foi dispensada do trabalho e ficou sem renda. Nesse momento de fragilidade, confiou em pessoas que se apresentavam como líderes religiosos e que prometeram ajudá-la — e, segundo o relato dela, foi vítima de golpes que a deixaram ainda mais vulnerável.</p>
+
+          <h2>Os golpes que ela sofreu</h2>
+
+          <p>A primeira promessa foi de uma aposentadoria rápida pelo INSS, mediante o pagamento de uma comissão e a retenção de parte do benefício mensal "a título de taxas". A segunda, mais grave, envolveu um empréstimo de R$ 15 mil tirado em nome dela para a compra de uma motocicleta que seria usada, segundo prometido, para o trabalho e para ajudar pessoas necessitadas. O dinheiro foi entregue em mãos e nunca mais devolvido — a pessoa desapareceu, e Dona Dacy ficou com a dívida do empréstimo para pagar sozinha, hoje descontada mensalmente de sua renda.</p>
+
+          <h2>Hoje</h2>
+
+          <p>Dona Dacy vive em uma casa simples, de construção mista (madeira e alvenaria), que precisa urgentemente de reforma na parte elétrica e não está em condições adequadas de moradia. Ela não guarda mágoa nem deixou de acreditar nas pessoas — mas precisa, agora, da ajuda de quem puder contribuir para reconstruir um pouco da sua estrutura de vida.</p>
+
+          <em>Esta campanha não é sobre julgar quem a machucou, e sim sobre dar a ela a chance de recomeçar com dignidade. Qualquer valor ou item doado faz diferença.</em>
+        </div>
+      </div>
+
+      <button class="read-more-btn" id="read-more-btn" aria-expanded="false">Ler mais</button>
+
+      <div class="cta-row" style="margin-top: 1.25rem;">
+        <button class="btn btn-outline" id="open-donate-mid">Ajudar</button>
+        <button class="btn btn-outline" id="open-share-mid">Compartilhar</button>
+      </div>
+    </section>
+
+    <!-- NECESSIDADES -->
+    <section class="treatment-section" aria-labelledby="needs-heading">
+      <div class="treatment-inner">
+        <h2 class="section-title reveal" id="needs-heading">O que Dona Dacy precisa</h2>
+        <p class="reveal" style="color: var(--muted); font-size: .9rem; margin-top: -.25rem;">Itens necessários para ela recomeçar com dignidade.</p>
+
+        <ol class="treatment-steps" style="margin-top:1.5rem;">
+
+          <li class="step pending reveal">
+            <div class="step-number">MA</div>
+            <div class="step-body">
+              <p class="step-title">
+                Reforma da fiação elétrica
+                <span class="step-status">Necessário</span>
+              </p>
+              <p class="step-desc">A instalação elétrica da casa está em condições inadequadas e precisa de reforma urgente para segurança.</p>
+            </div>
+          </li>
+
+          <li class="step pending reveal reveal-delay-1">
+            <div class="step-number">MA</div>
+            <div class="step-body">
+              <p class="step-title">
+                Fogão
+                <span class="step-status">Necessário</span>
+              </p>
+              <p class="step-desc">Item básico para o dia a dia que está em falta.</p>
+            </div>
+          </li>
+
+          <li class="step pending reveal reveal-delay-2">
+            <div class="step-number">MA</div>
+            <div class="step-body">
+              <p class="step-title">
+                Micro-ondas
+                <span class="step-status">Necessário</span>
+              </p>
+              <p class="step-desc">Para facilitar o preparo das refeições.</p>
+            </div>
+          </li>
+
+          <li class="step pending reveal reveal-delay-1">
+            <div class="step-number">MA</div>
+            <div class="step-body">
+              <p class="step-title">
+                Sofá
+                <span class="step-status">Necessário</span>
+              </p>
+              <p class="step-desc">Mobiliário básico que está ausente na casa.</p>
+            </div>
+          </li>
+
+          <li class="step pending reveal reveal-delay-2">
+            <div class="step-number">MA</div>
+            <div class="step-body">
+              <p class="step-title">
+                Cama
+                <span class="step-status">Necessário</span>
+              </p>
+              <p class="step-desc">Para que ela possa descansar com dignidade.</p>
+            </div>
+          </li>
+
+          <li class="step received reveal">
+            <div class="step-number">✓</div>
+            <div class="step-body">
+              <p class="step-title">
+                Geladeira
+                <span class="step-status">Recebida ✓</span>
+              </p>
+              <p class="step-desc">Já doada por um apoiador. Muito obrigada a quem contribuiu!</p>
+            </div>
+          </li>
+
+        </ol>
+
+        <div style="margin-top:1.75rem; background:#fff; border-radius:var(--radius); padding:1.1rem 1.25rem; border:1.5px solid var(--border);" class="reveal">
+          <p style="font-size:.78rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin-bottom:.75rem;">Como ajudar</p>
+          <p style="font-size:.9rem; line-height:1.6; color:var(--primary);">Você pode contribuir com <strong>qualquer valor em dinheiro via PIX</strong> — cada real ajuda a cobrir a reforma elétrica e os itens necessários. Se preferir, também pode <strong>doar itens diretamente</strong> (fogão, micro-ondas, sofá ou cama). Entre em contato pelo botão de compartilhamento para combinar a entrega.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section class="cta-final reveal" aria-label="Chamada final">
+      <div class="section-badge" style="display:inline-flex; margin-bottom:1rem;">
+        ❤️ Cada contribuição importa
+      </div>
+      <h2 class="cta-final-title">
+        Dona Dacy merece<br>recomeçar com <em>dignidade</em>.
+      </h2>
+      <p class="cta-final-sub">
+        Ela não pede muito — só uma chance de reconstruir o que perdeu. Qualquer valor, por menor que seja, faz diferença real na vida dela.
+      </p>
+      <div class="cta-final-row">
+        <button class="btn btn-primary" id="open-donate-final" style="font-size:1.05rem; padding:1rem;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          Ajudar Dona Dacy
+        </button>
+        <button class="btn btn-outline" id="open-share-final">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" x2="12" y1="2" y2="15"/></svg>
+          Compartilhar campanha
+        </button>
+      </div>
+    </section>
+
+    <!-- ORGANIZADOR -->
+    <section class="organizer-section" aria-labelledby="organizer-heading">
+      <div class="organizer-inner">
+        <h2 class="section-title reveal" id="organizer-heading" style="font-size:1.25rem;">Organizador</h2>
+        <div class="organizer-card reveal">
+          <div class="organizer-avatar">MA</div>
+          <div>
+            <p class="organizer-name">Instituto Mão Amiga</p>
+            <p class="organizer-role">Organizador</p>
+            <p class="organizer-location">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:.2rem"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              Manaus, AM · Brasil
+            </p>
+          </div>
+        </div>
+        <p style="margin-top:1rem; font-size:.82rem; color:var(--muted);">
+          24 de agosto de 2026 · <a href="/campanhas/" style="text-decoration:underline;">Causas Sociais</a>
+        </p>
+        <div class="section-badge" style="margin-top:.75rem;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+          Doação protegida
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-copy">Mão Amiga © 2026 · <a href="/">Ver todas as campanhas</a></p>
+    </div>
+  </footer>
+
+  <!-- STICKY CTA -->
+  <div class="sticky-cta" id="sticky-cta" aria-hidden="true">
+    <div class="sticky-cta-inner">
+      <div class="sticky-progress-row">
+        <div>
+          <p class="sticky-amount">Ajude Dona Dacy <span class="sticky-goal">— qualquer valor</span></p>
+          <div class="progress-bar-wrap" style="margin-top:.4rem;">
+            <div class="progress-bar-fill" style="width:0%;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="cta-row" style="margin-top:0;">
+        <button class="btn btn-primary" id="open-donate-sticky">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          Ajudar
+        </button>
+        <button class="btn btn-secondary" id="open-share-sticky">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" x2="12" y1="2" y2="15"/></svg>
+          Compartilhar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: DOAÇÃO -->
+  <div class="modal-backdrop" id="donate-modal" role="dialog" aria-modal="true" aria-labelledby="donate-modal-title">
+    <div class="modal-sheet">
+      <div class="modal-handle" aria-hidden="true"></div>
+      <button class="modal-close" id="close-donate" aria-label="Fechar">✕</button>
+      <h2 class="modal-title" id="donate-modal-title">Escolha o valor da doação</h2>
+      <div class="amount-grid" role="group" aria-label="Valores sugeridos">
+        <button class="amount-btn" data-amount="10">R$ 10</button>
+        <button class="amount-btn selected" data-amount="25">R$ 25</button>
+        <button class="amount-btn" data-amount="50">R$ 50</button>
+        <button class="amount-btn" data-amount="100">R$ 100</button>
+        <button class="amount-btn" data-amount="250">R$ 250</button>
+        <button class="amount-btn" data-amount="500">R$ 500</button>
+      </div>
+      <label for="custom-amount" class="sr-only">Outro valor (R$)</label>
+      <input type="number" class="amount-custom" id="custom-amount" placeholder="Outro valor (R$)" min="1" />
+      <p class="modal-note">🔒 Pagamento seguro via PIX · Garantia Mão Amiga · 100% vai para Dona Dacy</p>
+      <button class="btn btn-primary" style="width:100%; font-size:1rem; padding:1rem;" id="proceed-donate">
+        Continuar com a doação ❤️
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL: IDENTIFICAÇÃO -->
+  <div class="modal-backdrop" id="identity-modal" role="dialog" aria-modal="true" aria-labelledby="identity-modal-title">
+    <div class="modal-sheet">
+      <div class="modal-handle" aria-hidden="true"></div>
+      <button class="modal-close" id="close-identity" aria-label="Fechar">✕</button>
+      <h2 class="modal-title" id="identity-modal-title">Como deseja doar?</h2>
+      <div style="display:flex; flex-direction:column; gap:.75rem; margin:1.25rem 0;">
+        <button class="btn btn-primary" style="width:100%; font-size:1rem; padding:1rem;" id="choose-identified">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Identificar-me
+        </button>
+        <button class="btn" style="width:100%; font-size:1rem; padding:1rem; background:var(--bg-alt);" id="choose-anonymous">
+          Doar anonimamente
+        </button>
+      </div>
+      <div id="identity-form" style="display:none;">
+        <div style="height:1px; background:var(--border); margin-bottom:1.25rem;"></div>
+        <div style="display:flex; flex-direction:column; gap:.75rem;">
+          <div><label>Nome completo <span style="color:#e53e3e">*</span></label><input type="text" id="id-nome" placeholder="Maria Silva" autocomplete="name" /></div>
+          <div><label>Celular <span style="color:#e53e3e">*</span></label><input type="tel" id="id-telemovel" placeholder="(11) 91234-5678" inputmode="numeric" maxlength="15" autocomplete="tel-national" /></div>
+          <div><label>Email <span style="color:#e53e3e">*</span></label><input type="email" id="id-email" placeholder="maria@email.com" autocomplete="email" /></div>
+          <div><label>CPF <span style="color:var(--muted); font-weight:400;">(opcional)</span></label><input type="text" id="id-nif" placeholder="000.000.000-00" inputmode="numeric" maxlength="14" /></div>
+        </div>
+        <p id="identity-err" style="color:#e53e3e; font-size:.82rem; margin-top:.5rem; display:none;">Por favor preencha os campos obrigatórios.</p>
+        <button class="btn btn-primary" style="width:100%; font-size:1rem; padding:1rem; margin-top:1.25rem;" id="confirm-identified">
+          Continuar para doação ❤️
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: COMPARTILHAR -->
+  <div class="modal-backdrop" id="share-modal" role="dialog" aria-modal="true" aria-labelledby="share-modal-title">
+    <div class="modal-sheet">
+      <div class="modal-handle" aria-hidden="true"></div>
+      <button class="modal-close" id="close-share" aria-label="Fechar">✕</button>
+      <h2 class="modal-title" id="share-modal-title">Compartilhe e multiplique o impacto</h2>
+      <div class="share-copy">
+        <input type="text" class="share-url" id="share-url-input" value="https://coracaosolidariopt.site/campanhas/dona-dacy/" readonly />
+        <button class="share-copy-btn" id="copy-link">Copiar</button>
+      </div>
+      <div class="share-grid">
+        <button class="share-btn" aria-label="Compartilhar no Facebook">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#1877f2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          Facebook
+        </button>
+        <button class="share-btn" aria-label="Compartilhar no WhatsApp">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#25d366"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          WhatsApp
+        </button>
+        <button class="share-btn" aria-label="Compartilhar no X">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.264 5.638Zm-1.161 17.52h1.833L7.084 4.126H5.117Z"/></svg>
+          X (Twitter)
+        </button>
+        <button class="share-btn" aria-label="Compartilhar no Instagram">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="url(#ig-grad2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <defs><linearGradient id="ig-grad2" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#f09433"/><stop offset="50%" style="stop-color:#e6683c"/><stop offset="100%" style="stop-color:#dc2743"/></linearGradient></defs>
+            <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+          </svg>
+          Instagram
+        </button>
+      </div>
+      <p style="font-size:.8rem; color:var(--muted); text-align:center; margin-top:.5rem;">
+        Compartilhar pode trazer novos apoiadores para Dona Dacy. ❤️
+      </p>
+    </div>
+  </div>
+
+  <script>
+    /* UTM capture */
+    (function () {
+      const p = new URLSearchParams(location.search);
+      const keys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','src','sck'];
+      let found = false;
+      keys.forEach(k => { if (p.get(k)) found = true; });
+      if (found) {
+        const stored = {};
+        keys.forEach(k => { stored[k] = p.get(k) || null; });
+        localStorage.setItem('utmify_utms', JSON.stringify(stored));
+      }
+    })();
+
+    /* Scroll reveal */
+    const revealEls = document.querySelectorAll('.reveal');
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => revealObs.observe(el));
+
+    /* Sticky CTA */
+    const stickyCTA    = document.getElementById('sticky-cta');
+    const progressCard = document.getElementById('progress');
+    const stickyObs    = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        stickyCTA.classList.toggle('visible', !e.isIntersecting);
+        stickyCTA.setAttribute('aria-hidden', String(e.isIntersecting));
+      });
+    }, { threshold: 0 });
+    stickyObs.observe(progressCard);
+
+    /* Ler mais */
+    const readMoreBtn = document.getElementById('read-more-btn');
+    const causeWrap   = document.getElementById('cause-wrap');
+    let expanded = false;
+    readMoreBtn.addEventListener('click', () => {
+      expanded = !expanded;
+      if (expanded) {
+        causeWrap.classList.remove('collapsed');
+        causeWrap.style.maxHeight = causeWrap.scrollHeight + 'px';
+        readMoreBtn.textContent = 'Ler menos';
+        readMoreBtn.setAttribute('aria-expanded', 'true');
+      } else {
+        causeWrap.style.maxHeight = '';
+        causeWrap.classList.add('collapsed');
+        readMoreBtn.textContent = 'Ler mais';
+        readMoreBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    /* Modals */
+    function openModal(id) { document.getElementById(id).classList.add('open'); document.body.style.overflow = 'hidden'; }
+    function closeModal(id) { document.getElementById(id).classList.remove('open'); document.body.style.overflow = ''; }
+    document.querySelectorAll('.modal-backdrop').forEach(b => {
+      b.addEventListener('click', e => { if (e.target === b) closeModal(b.id); });
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') document.querySelectorAll('.modal-backdrop.open').forEach(m => closeModal(m.id));
+    });
+
+    ['open-donate-top','open-donate-mid','open-donate-final','open-donate-sticky'].forEach(id => {
+      document.getElementById(id)?.addEventListener('click', () => openModal('donate-modal'));
+    });
+    document.getElementById('close-donate').addEventListener('click', () => closeModal('donate-modal'));
+
+    /* Seleção de valor */
+    document.querySelectorAll('.amount-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        document.getElementById('custom-amount').value = '';
+      });
+    });
+    document.getElementById('custom-amount').addEventListener('input', () => {
+      document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
+    });
+
+    let _donateAmount = 0;
+    document.getElementById('proceed-donate').addEventListener('click', () => {
+      const selected  = document.querySelector('.amount-btn.selected');
+      const customVal = document.getElementById('custom-amount').value;
+      const rawAmount = customVal ? parseFloat(customVal) : parseFloat(selected?.dataset.amount || '25');
+      if (!rawAmount || rawAmount < 1 || rawAmount > 5000) { document.getElementById('custom-amount').focus(); return; }
+      _donateAmount = rawAmount;
+      closeModal('donate-modal');
+      document.getElementById('identity-form').style.display = 'none';
+      document.getElementById('identity-err').style.display  = 'none';
+      document.getElementById('choose-identified').style.display = '';
+      document.getElementById('choose-anonymous').style.display  = '';
+      openModal('identity-modal');
+    });
+    document.getElementById('close-identity').addEventListener('click', () => closeModal('identity-modal'));
+
+    function buildCheckoutUrl(base) {
+      try {
+        const utms = JSON.parse(localStorage.getItem('utmify_utms') || 'null');
+        if (utms) Object.entries(utms).forEach(([k, v]) => { if (v) base.set(k, v); });
+      } catch {}
+      return '/checkout.html?' + base.toString();
+    }
+
+    document.getElementById('choose-anonymous').addEventListener('click', () => {
+      closeModal('identity-modal');
+      location.href = buildCheckoutUrl(new URLSearchParams({ amount: _donateAmount }));
+    });
+    document.getElementById('choose-identified').addEventListener('click', () => {
+      document.getElementById('identity-form').style.display = 'block';
+      document.getElementById('choose-identified').style.display = 'none';
+      document.getElementById('choose-anonymous').style.display  = 'none';
+    });
+    document.getElementById('confirm-identified').addEventListener('click', () => {
+      const nome  = document.getElementById('id-nome').value.trim();
+      const tel   = document.getElementById('id-telemovel').value.replace(/\s/g, '');
+      const email = document.getElementById('id-email').value.trim();
+      const nif   = document.getElementById('id-nif').value.trim();
+      const err   = document.getElementById('identity-err');
+      if (!nome || !tel || !email) { err.style.display = 'block'; return; }
+      err.style.display = 'none';
+      const params = new URLSearchParams({ amount: _donateAmount, nome, tel, email, ...(nif ? { nif } : {}) });
+      closeModal('identity-modal');
+      location.href = buildCheckoutUrl(params);
+    });
+
+    ['open-share-top','open-share-mid','open-share-final','open-share-sticky'].forEach(id => {
+      document.getElementById(id)?.addEventListener('click', () => openModal('share-modal'));
+    });
+    document.getElementById('close-share').addEventListener('click', () => closeModal('share-modal'));
+
+    /* Copiar link */
+    document.getElementById('copy-link').addEventListener('click', function() {
+      const url = document.getElementById('share-url-input');
+      url.select();
+      navigator.clipboard.writeText(url.value).then(() => {
+        this.textContent = 'Copiado!';
+        setTimeout(() => { this.textContent = 'Copiar'; }, 2000);
+      }).catch(() => {
+        document.execCommand('copy');
+        this.textContent = 'Copiado!';
+        setTimeout(() => { this.textContent = 'Copiar'; }, 2000);
+      });
+    });
+
+    /* Compartilhar redes sociais */
+    const campaignURL  = encodeURIComponent('https://coracaosolidariopt.site/campanhas/dona-dacy/');
+    const campaignText = encodeURIComponent('Dona Dacy foi vítima de golpes após a pandemia e precisa de ajuda para recomeçar. Qualquer doação faz diferença! ❤️');
+    document.querySelector('[aria-label="Compartilhar no Facebook"]').addEventListener('click', () => {
+      window.open(`https://www.facebook.com/sharer/sharer.php?u=${campaignURL}`, '_blank', 'width=600,height=400');
+    });
+    document.querySelector('[aria-label="Compartilhar no WhatsApp"]').addEventListener('click', () => {
+      window.open(`https://api.whatsapp.com/send?text=${campaignText}%20${campaignURL}`, '_blank');
+    });
+    document.querySelector('[aria-label="Compartilhar no X"]').addEventListener('click', () => {
+      window.open(`https://twitter.com/intent/tweet?text=${campaignText}&url=${campaignURL}`, '_blank', 'width=600,height=400');
+    });
+
+    /* Utmify InitiateCheckout */
+    (function tryIC() {
+      let attempts = 0;
+      const iv = setInterval(() => {
+        attempts++;
+        if (typeof window.utmify === 'function') {
+          clearInterval(iv);
+          window.utmify('track', 'InitiateCheckout', { currency: 'BRL', value: 0 });
+        }
+        if (attempts >= 15) clearInterval(iv);
+      }, 200);
+    })();
+  </script>
+
+</body>
+</html>

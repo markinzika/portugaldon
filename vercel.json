@@ -1,12 +1,13 @@
 {
   "version": 2,
   "builds": [
-    { "src": "index.html",      "use": "@vercel/static" },
-    { "src": "checkout.html",   "use": "@vercel/static" },
-    { "src": "return.html",     "use": "@vercel/static" },
-    { "src": "*.jpg",           "use": "@vercel/static" },
-    { "src": "*.png",           "use": "@vercel/static" },
-    { "src": "api/**/*.js",     "use": "@vercel/node"   }
+    { "src": "index.html",               "use": "@vercel/static" },
+    { "src": "checkout.html",            "use": "@vercel/static" },
+    { "src": "return.html",              "use": "@vercel/static" },
+    { "src": "campanhas/**/*.html",      "use": "@vercel/static" },
+    { "src": "*.jpg",                    "use": "@vercel/static" },
+    { "src": "*.png",                    "use": "@vercel/static" },
+    { "src": "api/**/*.js",              "use": "@vercel/node"   }
   ],
   "routes": [
     { "src": "/api/payments/init",        "dest": "/api/payments/init.js"       },
