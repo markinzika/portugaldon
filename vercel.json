@@ -1,6 +1,7 @@
 {
   "version": 2,
   "builds": [
+    { "src": "404.html",                 "use": "@vercel/static" },
     { "src": "index.html",               "use": "@vercel/static" },
     { "src": "checkout.html",            "use": "@vercel/static" },
     { "src": "return.html",              "use": "@vercel/static" },
@@ -20,6 +21,6 @@
     { "src": "/return.html",             "dest": "/return.html"                },
     { "src": "/campanhas/([^/]+)/?",     "dest": "/campanhas/$1/index.html"    },
     { "src": "/(?!api/).*\\.(jpg|png)$", "dest": "/$0"                        },
-    { "src": "/(.*)",                    "dest": "/index.html"                 }
+    { "src": "/(.*)", "status": 404,    "dest": "/404.html"                   }
   ]
 }
