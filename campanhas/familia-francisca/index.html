@@ -197,6 +197,19 @@
     .share-copy-btn { padding: .7rem 1rem; background: var(--primary); color: var(--primary-fg); font-size: .82rem; font-weight: 700; white-space: nowrap; transition: opacity var(--transition); }
     .share-copy-btn:hover { opacity: .8; }
 
+    /* QUEM AJUDOU */
+    .donors-section { padding: 2.5rem 1.25rem; background: var(--bg); }
+    .donors-inner { max-width: 480px; margin-inline: auto; }
+    .donors-list { display: flex; flex-direction: column; gap: 1rem; }
+    .donor-card { display: flex; gap: .9rem; align-items: flex-start; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.1rem; box-shadow: var(--shadow-card); }
+    .donor-avatar { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; flex-shrink: 0; background: var(--bg-alt); }
+    .donor-body { flex: 1; min-width: 0; }
+    .donor-header { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-bottom: .3rem; }
+    .donor-name { font-size: .9rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .donor-amount { font-size: .85rem; font-weight: 800; color: var(--accent-dark); white-space: nowrap; flex-shrink: 0; }
+    .donor-msg { font-size: .85rem; color: var(--muted); line-height: 1.5; font-style: italic; }
+    .donors-empty { font-size: .9rem; color: var(--muted); text-align: center; padding: 1.5rem 0; }
+
     /* HERO DOTS & ARROWS */
     .hero-dots { position: absolute; bottom: 5.5rem; left: 50%; transform: translateX(-50%); display: flex; gap: .45rem; z-index: 2; pointer-events: none; }
     .hero-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,.45); transition: background .3s, transform .3s; }
@@ -405,6 +418,33 @@
           <p style="font-size:.78rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin-bottom:.75rem;">Como ajudar</p>
           <p style="font-size:.9rem; line-height:1.6; color:var(--primary);">Você pode contribuir com <strong>qualquer valor em dinheiro via PIX</strong> — cada real vai direto para a construção da casa. Todo o dinheiro arrecadado será usado exclusivamente na obra, acompanhada pelo Instituto Mão Amiga.</p>
         </div>
+      </div>
+    </section>
+
+    <!-- QUEM AJUDOU -->
+    <section class="donors-section" aria-labelledby="donors-heading">
+      <div class="donors-inner">
+        <h2 class="section-title reveal" id="donors-heading">Quem já ajudou</h2>
+        <p class="reveal" style="color:var(--muted);font-size:.9rem;margin-top:-.25rem;margin-bottom:1.5rem;">Pessoas que acreditaram nessa família e fizeram a diferença.</p>
+
+        <ul class="donors-list">
+
+          <!-- EXEMPLO DE CARD — remover quando tiver dados reais
+          <li class="donor-card reveal">
+            <img class="donor-avatar" src="/foto-doador.jpg" alt="Nome do doador" />
+            <div class="donor-body">
+              <div class="donor-header">
+                <span class="donor-name">Nome Sobrenome</span>
+                <span class="donor-amount">R$ 50,00</span>
+              </div>
+              <p class="donor-msg">"Mensagem da pessoa aqui."</p>
+            </div>
+          </li>
+          -->
+
+        </ul>
+
+        <p class="donors-empty reveal" id="donors-empty">Seja o primeiro a ajudar! ❤️</p>
       </div>
     </section>
 
