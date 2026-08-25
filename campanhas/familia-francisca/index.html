@@ -229,11 +229,7 @@
     <!-- HERO -->
     <section class="hero" aria-label="Campanha: Uma Casa para a Família de Francisca">
       <div class="hero-visual">
-        <!-- Placeholder até as fotos chegarem -->
-        <div class="hero-placeholder">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          <p>Família de Francisca</p>
-        </div>
+        <img class="hero-slide active" src="/francisca-1.png" alt="Francisca e seus quatro filhos em frente à casa de taipa" loading="eager" fetchpriority="high" />
 
         <div class="hero-gradient-bottom" aria-hidden="true"></div>
         <h1 class="hero-title">Uma Casa para a<br>Família de Francisca</h1>
@@ -703,6 +699,8 @@
     document.querySelector('[aria-label="Compartilhar no X"]').addEventListener('click', () => {
       window.open(`https://twitter.com/intent/tweet?text=${campaignText}&url=${campaignURL}`, '_blank', 'width=600,height=400');
     });
+
+    /* Carrossel hero — apenas 1 slide por agora, sem controlos */
 
     /* Utmify InitiateCheckout */
     (function tryIC() {
