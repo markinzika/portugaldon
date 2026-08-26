@@ -178,11 +178,9 @@
     @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
     .modal-handle { width: 36px; height: 4px; background: var(--border); border-radius: var(--radius-pill); margin: 0 auto 1.25rem; }
     .modal-title { font-size: 1.15rem; font-weight: 800; margin-bottom: 1.25rem; }
-    .amount-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; margin-bottom: 1rem; }
+    .amount-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: .6rem; margin-bottom: 1rem; }
     .amount-btn { border: 1.5px solid var(--border); border-radius: .75rem; padding: .75rem .5rem; font-size: .95rem; font-weight: 700; text-align: center; transition: all var(--transition); cursor: pointer; }
     .amount-btn:hover, .amount-btn.selected { border-color: var(--accent-dark); background: rgba(0,145,132,.07); color: var(--accent-dark); }
-    .amount-custom { width: 100%; border: 1.5px solid var(--border); border-radius: .75rem; padding: .75rem 1rem; font-size: .95rem; font-weight: 600; font-family: var(--font); margin-bottom: 1rem; outline: none; transition: border-color var(--transition); }
-    .amount-custom:focus { border-color: var(--accent-dark); }
     .modal-note { font-size: .8rem; color: var(--muted); margin-bottom: 1.25rem; line-height: 1.5; }
     .modal-close { position: absolute; top: 1rem; right: 1rem; width: 32px; height: 32px; border-radius: 50%; background: var(--bg-alt); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; cursor: pointer; color: var(--muted); transition: background var(--transition); }
     .modal-close:hover { background: var(--border); }
@@ -546,15 +544,15 @@
       <button class="modal-close" id="close-donate" aria-label="Fechar">✕</button>
       <h2 class="modal-title" id="donate-modal-title">Escolha o valor da doação</h2>
       <div class="amount-grid" role="group" aria-label="Valores sugeridos">
+        <button class="amount-btn" data-amount="5">R$ 5</button>
         <button class="amount-btn" data-amount="10">R$ 10</button>
-        <button class="amount-btn selected" data-amount="25">R$ 25</button>
+        <button class="amount-btn" data-amount="20">R$ 20</button>
+        <button class="amount-btn selected" data-amount="35">R$ 35</button>
         <button class="amount-btn" data-amount="50">R$ 50</button>
         <button class="amount-btn" data-amount="100">R$ 100</button>
         <button class="amount-btn" data-amount="250">R$ 250</button>
         <button class="amount-btn" data-amount="500">R$ 500</button>
       </div>
-      <label for="custom-amount" class="sr-only">Outro valor (R$)</label>
-      <input type="number" class="amount-custom" id="custom-amount" placeholder="Outro valor (R$)" min="1" />
       <p class="modal-note">🔒 Você será redirecionado para o pagamento via PIX · 100% vai para a família de Francisca</p>
       <button class="btn btn-primary" style="width:100%; font-size:1rem; padding:1rem;" id="proceed-donate">
         Ir para o PIX ❤️
@@ -685,18 +683,13 @@
       btn.addEventListener('click', () => {
         document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
-        document.getElementById('custom-amount').value = '';
       });
-    });
-    document.getElementById('custom-amount').addEventListener('input', () => {
-      document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
     });
 
     document.getElementById('proceed-donate').addEventListener('click', () => {
       const selected  = document.querySelector('.amount-btn.selected');
-      const customVal = document.getElementById('custom-amount').value;
-      const rawAmount = customVal ? parseFloat(customVal) : parseFloat(selected?.dataset.amount || '25');
-      if (!rawAmount || rawAmount < 1 || rawAmount > 5000) { document.getElementById('custom-amount').focus(); return; }
+      const rawAmount = parseFloat(selected?.dataset.amount || '35');
+      if (!rawAmount || rawAmount < 1) return;
       closeModal('donate-modal');
       const params = new URLSearchParams({ amount: rawAmount });
       try {
