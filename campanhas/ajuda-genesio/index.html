@@ -116,6 +116,16 @@
     .read-more-btn { margin-top: .5rem; font-size: .875rem; font-weight: 700; color: var(--accent-dark); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; transition: opacity var(--transition); }
     .read-more-btn:hover { opacity: .7; }
 
+    /* PROVA VISUAL */
+    .proof-section { padding: 2.5rem 1.25rem; max-width: 480px; margin-inline: auto; }
+    .proof-section.alt { background: var(--bg-alt); max-width: none; }
+    .proof-section.alt .proof-inner { max-width: 480px; margin-inline: auto; }
+    .proof-image-wrap { border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-card); border: 1px solid var(--border); }
+    .proof-image-wrap img { width: 100%; height: auto; display: block; }
+    .proof-caption { margin-top: 1rem; font-size: .95rem; line-height: 1.65; color: #333; }
+    .proof-caption strong { color: var(--accent-dark); }
+    .proof-cta-row { margin-top: 1.25rem; }
+
     /* NECESSIDADES */
     .treatment-section { background: var(--bg-alt); padding: 2.5rem 1.25rem; }
     .treatment-inner { max-width: 480px; margin-inline: auto; }
@@ -322,6 +332,24 @@
       </div>
     </section>
 
+    <!-- PROVA VISUAL: PIETRA -->
+    <section class="proof-section" aria-labelledby="proof-1-heading">
+      <div class="section-badge">
+        💚 Um relato real
+      </div>
+      <h2 class="section-title reveal" id="proof-1-heading" style="font-size:1.2rem;">O desabafo de quem cuida sozinha</h2>
+      <div class="proof-image-wrap reveal">
+        <img src="/genesio-2.png" alt="Pietra, filha de Genésio, emocionada ao lado do pai internado e em um momento de oração" loading="lazy" />
+      </div>
+      <p class="proof-caption reveal">Aos 21 anos, <strong>Pietra</strong> carrega sozinha o peso de cuidar do pai — sem o apoio dos irmãos. Cada doação alivia um pouco dessa jornada solitária e devolve esperança para essa família.</p>
+      <div class="proof-cta-row reveal">
+        <button class="btn btn-primary" style="width:100%;" id="open-donate-proof1">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          Ajudar Pietra e Seu Genésio
+        </button>
+      </div>
+    </section>
+
     <!-- COMO A ARRECADAÇÃO VAI AJUDAR -->
     <section class="treatment-section" aria-labelledby="needs-heading">
       <div class="treatment-inner">
@@ -359,6 +387,26 @@
         <div style="margin-top:1.75rem;background:#fff;border-radius:var(--radius);padding:1.1rem 1.25rem;border:1.5px solid var(--border);" class="reveal">
           <p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.75rem;">Como ajudar</p>
           <p style="font-size:.9rem;line-height:1.6;color:var(--primary);">Contribua com <strong>qualquer valor via PIX</strong>. Não importa se parece pequeno — quando muitas pessoas ajudam, aquilo que seria impossível para uma família pode se tornar alcançável.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROVA VISUAL: EVOLUÇÃO DO TRATAMENTO -->
+    <section class="proof-section alt" aria-labelledby="proof-2-heading">
+      <div class="proof-inner">
+        <div class="section-badge">
+          📈 Resultado de quem já ajudou
+        </div>
+        <h2 class="section-title reveal" id="proof-2-heading" style="font-size:1.2rem;">A recuperação está acontecendo</h2>
+        <div class="proof-image-wrap reveal">
+          <img src="/genesio-3.png" alt="Seu Genésio em sessão de fisioterapia caminhando com apoio, e em um momento carinhoso com a filha" loading="lazy" />
+        </div>
+        <p class="proof-caption reveal">Graças às doações anteriores, Genésio já deu passos reais na sua reabilitação — literalmente. A fisioterapia diária está funcionando. <strong>Sua doação garante que esse progresso não pare agora.</strong></p>
+        <div class="proof-cta-row reveal">
+          <button class="btn btn-primary" style="width:100%;" id="open-donate-proof2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+            Continuar essa evolução
+          </button>
         </div>
       </div>
     </section>
@@ -595,7 +643,7 @@
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') document.querySelectorAll('.modal-backdrop.open').forEach(m => closeModal(m.id));
     });
-    ['open-donate-top','open-donate-mid','open-donate-final','open-donate-sticky'].forEach(id => {
+    ['open-donate-top','open-donate-mid','open-donate-proof1','open-donate-proof2','open-donate-final','open-donate-sticky'].forEach(id => {
       document.getElementById(id)?.addEventListener('click', () => openModal('donate-modal'));
     });
     document.getElementById('close-donate').addEventListener('click', () => closeModal('donate-modal'));
