@@ -535,10 +535,10 @@
       <button class="modal-close" id="close-donate" aria-label="Fechar">✕</button>
       <h2 class="modal-title" id="donate-modal-title">Escolha o valor da doação</h2>
       <div class="amount-grid" role="group" aria-label="Valores sugeridos">
-        <button class="amount-btn" data-amount="5">R$ 5</button>
         <button class="amount-btn" data-amount="10">R$ 10</button>
-        <button class="amount-btn" data-amount="20">R$ 20</button>
-        <button class="amount-btn selected" data-amount="35">R$ 35</button>
+        <button class="amount-btn" data-amount="15">R$ 15</button>
+        <button class="amount-btn selected" data-amount="20">R$ 20</button>
+        <button class="amount-btn" data-amount="35">R$ 35</button>
         <button class="amount-btn" data-amount="50">R$ 50</button>
         <button class="amount-btn" data-amount="100">R$ 100</button>
         <button class="amount-btn" data-amount="250">R$ 250</button>
@@ -679,7 +679,7 @@
 
     document.getElementById('proceed-donate').addEventListener('click', () => {
       const selected  = document.querySelector('.amount-btn.selected');
-      const rawAmount = parseFloat(selected?.dataset.amount || '35');
+      const rawAmount = parseFloat(selected?.dataset.amount || '20');
       if (!rawAmount || rawAmount < 1) return;
       closeModal('donate-modal');
       const params = new URLSearchParams({ amount: rawAmount });
