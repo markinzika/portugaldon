@@ -546,7 +546,7 @@
       </div>
       <p class="modal-note">🔒 Você será redirecionado para o pagamento via PIX · 100% vai para Dona Dacy</p>
       <button class="btn btn-primary" style="width:100%; font-size:1rem; padding:1rem;" id="proceed-donate">
-        Ir para o PIX ❤️
+        Confirmar doação ❤️
       </button>
     </div>
   </div>
@@ -773,19 +773,6 @@
       btnPrev.addEventListener('click', () => { goTo(current - 1); restart(); });
       document.addEventListener('visibilitychange', () => document.hidden ? clearInterval(timer) : start());
       start();
-    })();
-
-    /* Utmify InitiateCheckout */
-    (function tryIC() {
-      let attempts = 0;
-      const iv = setInterval(() => {
-        attempts++;
-        if (typeof window.utmify === 'function') {
-          clearInterval(iv);
-          window.utmify('track', 'InitiateCheckout', { currency: 'BRL', value: 0 });
-        }
-        if (attempts >= 15) clearInterval(iv);
-      }, 200);
     })();
   </script>
 

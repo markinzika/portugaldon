@@ -568,7 +568,7 @@
         <button class="amount-btn" data-amount="500">R$ 500</button>
       </div>
       <p class="modal-note">🔒 Você será redirecionado para o pagamento via PIX · 100% vai para Seu Genésio</p>
-      <button class="btn btn-primary" style="width:100%;font-size:1rem;padding:1rem;" id="proceed-donate">Ir para o PIX ❤️</button>
+      <button class="btn btn-primary" style="width:100%;font-size:1rem;padding:1rem;" id="proceed-donate">Confirmar doação ❤️</button>
     </div>
   </div>
 
@@ -770,19 +770,6 @@
     document.querySelector('[aria-label="Compartilhar no X"]').addEventListener('click', () => {
       window.open(`https://twitter.com/intent/tweet?text=${campaignText}&url=${campaignURL}`, '_blank', 'width=600,height=400');
     });
-
-    /* Utmify InitiateCheckout */
-    (function tryIC() {
-      let attempts = 0;
-      const iv = setInterval(() => {
-        attempts++;
-        if (typeof window.utmify === 'function') {
-          clearInterval(iv);
-          window.utmify('track', 'InitiateCheckout', { currency: 'BRL', value: 0 });
-        }
-        if (attempts >= 15) clearInterval(iv);
-      }, 200);
-    })();
   </script>
 
 </body>
