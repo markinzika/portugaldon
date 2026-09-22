@@ -598,16 +598,49 @@
   </div>
 
   <script>
-    /* UTM capture */
+    /* UTM capture — grava em localStorage E cookie (redundante de propósito).
+       Navegadores embutidos do Facebook/Instagram (FB_IAB) podem isolar ou
+       limpar localStorage entre sessões da WebView; cookie com expires longo
+       tende a sobreviver melhor nesses casos. getStoredUtms() lê dos dois,
+       preferindo localStorage quando disponível. */
+    const UTM_KEYS = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','src','sck'];
+
+    function setCookie(name, value, days) {
+      try {
+        const expires = new Date(Date.now() + days * 864e5).toUTCString();
+        document.cookie = `${name}=${encodeURIComponent(value)};expires=${expires};path=/;SameSite=Lax`;
+      } catch {}
+    }
+
+    function getCookie(name) {
+      try {
+        const match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+        return match ? decodeURIComponent(match[1]) : null;
+      } catch { return null; }
+    }
+
+    function getStoredUtms() {
+      try {
+        const fromLocal = JSON.parse(localStorage.getItem('utmify_utms') || 'null');
+        if (fromLocal) return fromLocal;
+      } catch {}
+      try {
+        const fromCookie = JSON.parse(getCookie('utmify_utms') || 'null');
+        if (fromCookie) return fromCookie;
+      } catch {}
+      return null;
+    }
+
     (function () {
       const p = new URLSearchParams(location.search);
-      const keys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','src','sck'];
       let found = false;
-      keys.forEach(k => { if (p.get(k)) found = true; });
+      UTM_KEYS.forEach(k => { if (p.get(k)) found = true; });
       if (found) {
         const stored = {};
-        keys.forEach(k => { stored[k] = p.get(k) || null; });
-        localStorage.setItem('utmify_utms', JSON.stringify(stored));
+        UTM_KEYS.forEach(k => { stored[k] = p.get(k) || null; });
+        const json = JSON.stringify(stored);
+        try { localStorage.setItem('utmify_utms', json); } catch {}
+        setCookie('utmify_utms', json, 30);
       }
     })();
 
@@ -692,10 +725,8 @@
       if (!rawAmount || rawAmount < 1) return;
       closeModal('donate-modal');
       const params = new URLSearchParams({ amount: rawAmount });
-      try {
-        const utms = JSON.parse(localStorage.getItem('utmify_utms') || 'null');
-        if (utms) Object.entries(utms).forEach(([k, v]) => { if (v) params.set(k, v); });
-      } catch {}
+      const utms = getStoredUtms();
+      if (utms) Object.entries(utms).forEach(([k, v]) => { if (v) params.set(k, v); });
       const overlay = document.getElementById('pix-loading');
       overlay.style.display = 'flex';
       location.href = 'https://pay.ajudamaoamiga.org/api/init?' + params.toString();
